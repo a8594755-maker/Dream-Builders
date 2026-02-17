@@ -6,50 +6,34 @@
     <title>Gallery - Dream Builders</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h1>Dream Builders</h1>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="sponsors.html" class="nav-link">Our Sponsors</a></li>
-                    <li><a href="gallery.html" class="nav-link active">Gallery</a></li>
-                    <li><a href="lessons.html" class="nav-link">Lessons Learned</a></li>
-                    <li><a href="meeting-minutes/index.html" class="nav-link">Meeting Minutes</a></li>
-                    <li><a href="docs/index.html" class="nav-link">Project Documentation</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="subpage">
 
     <main>
         <section class="page-header">
-            <div class="container">
+            <div class="container reveal hero-enter">
                 <h1>Gallery</h1>
                 <p>Visual journey of our project progress and community impact</p>
+                <nav class="primary-link-row primary-link-row--subpage" aria-label="Primary pages">
+                    <a href="sponsors.html">Sponsors</a>
+                    <a href="gallery.html" class="is-active">Gallery</a>
+                    <a href="meeting-minutes/index.html">Minutes</a>
+                    <a href="docs/index.html">Docs</a>
+                </nav>
             </div>
         </section>
 
         <section class="gallery-content">
             <div class="container">
                 <!-- Album Categories -->
-                <div class="album-nav">
+                <div class="album-nav reveal">
                     <button class="album-btn active" data-album="meetings">Team Meetings</button>
                 </div>
 
                 <!-- Team Meetings Album -->
                 <div class="album active" id="meetings">
                     <h2>Team Meetings</h2>
-                    <div class="gallery-grid">
-                        <div class="gallery-item">
+                    <div class="gallery-grid" data-stagger="children">
+                        <div class="gallery-item reveal">
                             <div class="image-placeholder">
                                 <img src="assets/img/gallery/meetings/kickoff-meeting.jpg" alt="Kickoff Meeting" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="placeholder-content">
@@ -62,7 +46,7 @@
                                 <p>February 2026 - Initial team meeting to establish project goals and roles</p>
                             </div>
                         </div>
-                        <div class="gallery-item">
+                        <div class="gallery-item reveal">
                             <div class="image-placeholder">
                                 <img src="assets/img/gallery/meetings/planning-session.jpg" alt="Planning Session" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="placeholder-content">
@@ -75,7 +59,7 @@
                                 <p>February 2026 - Detailed planning for fundraising and outreach activities</p>
                             </div>
                         </div>
-                        <div class="gallery-item">
+                        <div class="gallery-item reveal">
                             <div class="image-placeholder">
                                 <img src="assets/img/gallery/meetings/team-collaboration.jpg" alt="Team Collaboration" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                 <div class="placeholder-content">
@@ -98,6 +82,13 @@
 
     <footer>
         <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="sponsors.html">Sponsors</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="meeting-minutes/index.html">Minutes</a>
+                <a href="docs/index.html">Docs</a>
+            </div>
             <p>&copy; 2026 Dream Builders - Partnering with Sleep in Heavenly Peace (NRV)</p>
         </div>
     </footer>

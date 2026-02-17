@@ -6,42 +6,26 @@
     <title>Meeting Minutes - Dream Builders</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h1>Dream Builders</h1>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="../index.html" class="nav-link">Home</a></li>
-                    <li><a href="../sponsors.html" class="nav-link">Our Sponsors</a></li>
-                    <li><a href="../gallery.html" class="nav-link">Gallery</a></li>
-                    <li><a href="../lessons.html" class="nav-link">Lessons Learned</a></li>
-                    <li><a href="../meeting-minutes/index.html" class="nav-link active">Meeting Minutes</a></li>
-                    <li><a href="../docs/index.html" class="nav-link">Project Documentation</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="subpage">
 
     <main>
         <section class="page-header">
-            <div class="container">
+            <div class="container reveal hero-enter">
                 <h1>Meeting Minutes</h1>
                 <p>Comprehensive record of project meetings, decisions, and action items</p>
+                <nav class="primary-link-row primary-link-row--subpage" aria-label="Primary pages">
+                    <a href="../sponsors.html">Sponsors</a>
+                    <a href="../gallery.html">Gallery</a>
+                    <a href="../meeting-minutes/index.html" class="is-active">Minutes</a>
+                    <a href="../docs/index.html">Docs</a>
+                </nav>
             </div>
         </section>
 
         <section class="minutes-content">
             <div class="container">
                 <!-- Minutes Index Table -->
-                <div class="minutes-index">
+                <div class="minutes-index reveal">
                     <h2>Meeting Minutes Index</h2>
                     <div class="table-container">
                         <table class="minutes-table">
@@ -85,22 +69,22 @@
                 </div>
 
                 <!-- Quick Stats -->
-                <div class="minutes-stats">
+                <div class="minutes-stats reveal">
                     <h2>Meeting Statistics</h2>
-                    <div class="stats-grid">
-                        <div class="stat-item">
+                    <div class="stats-grid" data-stagger="children">
+                        <div class="stat-item reveal">
                             <div class="stat-number">2</div>
                             <div class="stat-label">Total Meetings</div>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item reveal">
                             <div class="stat-number">0</div>
                             <div class="stat-label">Action Items Completed</div>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item reveal">
                             <div class="stat-number">12</div>
                             <div class="stat-label">Weeks Duration</div>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item reveal">
                             <div class="stat-number">0%</div>
                             <div class="stat-label">Decisions Implemented</div>
                         </div>
@@ -108,22 +92,22 @@
                 </div>
 
                 <!-- Outstanding Items -->
-                <div class="outstanding-items">
+                <div class="outstanding-items reveal">
                     <h2>Outstanding Action Items</h2>
-                    <div class="outstanding-list">
-                        <div class="outstanding-item">
+                    <div class="outstanding-list" data-stagger="children">
+                        <div class="outstanding-item reveal">
                             <h3>Project Timeline & Milestone Plan</h3>
                             <p>Pending - Comprehensive timeline with key milestones and deliverables</p>
                         </div>
-                        <div class="outstanding-item">
+                        <div class="outstanding-item reveal">
                             <h3>Bedding Drive Plan (40 twin bed-in-a-bag)</h3>
                             <p>Pending - Collection points, sorting process, and distribution plan</p>
                         </div>
-                        <div class="outstanding-item">
+                        <div class="outstanding-item reveal">
                             <h3>Coordination Plan for April 25 Build</h3>
                             <p>Pending - Volunteer roles, build stations, and logistics planning</p>
                         </div>
-                        <div class="outstanding-item">
+                        <div class="outstanding-item reveal">
                             <h3>Fundraising Materials & Outreach Strategy</h3>
                             <p>Pending - Sponsorship tiers, donation requests, and community engagement</p>
                         </div>
@@ -135,6 +119,13 @@
 
     <footer>
         <div class="container">
+            <div class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="../sponsors.html">Sponsors</a>
+                <a href="../gallery.html">Gallery</a>
+                <a href="../lessons.html">Lessons</a>
+                <a href="../docs/index.html">Docs</a>
+            </div>
             <p>&copy; 2026 Dream Builders - Partnering with Sleep in Heavenly Peace (NRV)</p>
         </div>
     </footer>

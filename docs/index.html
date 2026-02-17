@@ -6,42 +6,29 @@
     <title>Project Documentation - Dream Builders</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h1>Dream Builders</h1>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="../index.html" class="nav-link">Home</a></li>
-                    <li><a href="../sponsors.html" class="nav-link">Our Sponsors</a></li>
-                    <li><a href="../gallery.html" class="nav-link">Gallery</a></li>
-                    <li><a href="../lessons.html" class="nav-link">Lessons Learned</a></li>
-                    <li><a href="../meeting-minutes/index.html" class="nav-link">Meeting Minutes</a></li>
-                    <li><a href="../docs/index.html" class="nav-link active">Project Documentation</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="subpage">
 
     <main>
         <section class="page-header">
-            <div class="container">
+            <div class="container reveal hero-enter">
                 <h1>Project Documentation</h1>
                 <p>Central repository for all project management documents and deliverables</p>
+                <nav class="primary-link-row primary-link-row--subpage" aria-label="Primary pages">
+                    <a href="../sponsors.html">Sponsors</a>
+                    <a href="../gallery.html">Gallery</a>
+                    <a href="../meeting-minutes/index.html">Minutes</a>
+                    <a href="../docs/index.html" class="is-active">Docs</a>
+                </nav>
+                <div class="hero-actions" style="margin-top:var(--space-3)">
+                    <button class="cta-button primary" data-open-modal="docs-launcher-modal">Browse All Docs</button>
+                </div>
             </div>
         </section>
 
         <section class="docs-content">
             <div class="container">
                 <!-- Document Library -->
-                <div class="document-library">
+                <div class="document-library reveal">
                     <h2>Document Library</h2>
                     <div class="table-container">
                         <table class="docs-table">
@@ -79,18 +66,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Project Management Team Contract</td>
-                                    <td>Team roles, responsibilities, and agreements</td>
-                                    <td>Team</td>
-                                    <td>2026-02-10</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            <a href="documents/team/project-management-team-contract.pdf" class="action-link view" target="_blank" rel="noopener">Preview PDF</a>
-                                            <a href="documents/team/project-management-team-contract.docx" class="action-link download">Download DOCX</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>Scope Statement</td>
                                     <td>Project objectives, deliverables, and boundaries</td>
                                     <td>Team</td>
@@ -99,6 +74,18 @@
                                         <div class="table-actions">
                                             <a href="documents/planning/scope-statement.pdf" class="action-link view" target="_blank" rel="noopener">Preview PDF</a>
                                             <a href="documents/planning/scope-statement.docx" class="action-link download">Download DOCX</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Project Management Team Contract</td>
+                                    <td>Team roles, responsibilities, and agreements</td>
+                                    <td>Team</td>
+                                    <td>2026-02-10</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <a href="documents/team/project-management-team-contract.pdf" class="action-link view" target="_blank" rel="noopener">Preview PDF</a>
+                                            <a href="documents/team/project-management-team-contract.docx" class="action-link download">Download DOCX</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -127,22 +114,22 @@
                 </div>
 
                 <!-- PM Core Documents -->
-                <div class="core-docs">
+                <div class="core-docs reveal">
                     <h2>PM Core Documents</h2>
-                    <div class="core-docs-grid">
-                        <div class="doc-card">
+                    <div class="core-docs-grid" data-stagger="children">
+                        <div class="doc-card reveal">
                             <div class="doc-icon">🎯</div>
                             <h3>Scope Statement</h3>
                             <p>Detailed project scope including objectives, deliverables, exclusions, constraints, and assumptions.</p>
                             <a href="documents/planning/scope-statement.pdf" class="btn-link" target="_blank" rel="noopener">Preview PDF</a>
                         </div>
-                        <div class="doc-card">
+                        <div class="doc-card reveal">
                             <div class="doc-icon">👥</div>
                             <h3>Stakeholder Registry</h3>
                             <p>Comprehensive stakeholder identification, analysis, and engagement planning.</p>
                             <a href="documents/stakeholders/stakeholder-registry.pdf" class="btn-link" target="_blank" rel="noopener">Preview PDF</a>
                         </div>
-                        <div class="doc-card">
+                        <div class="doc-card reveal">
                             <div class="doc-icon">🤝</div>
                             <h3>Team Contract</h3>
                             <p>Team agreements, roles, responsibilities, and operating protocols.</p>
@@ -152,23 +139,23 @@
                 </div>
 
                 <!-- Document Categories -->
-                <div class="doc-categories">
+                <div class="doc-categories reveal">
                     <h2>Document Categories</h2>
-                    <div class="category-grid">
-                        <div class="category">
+                    <div class="category-grid" data-stagger="children">
+                        <div class="category reveal">
                             <h3>📊 Planning Documents</h3>
                             <ul>
                                 <li>Scope Statement</li>
                             </ul>
                         </div>
-                        <div class="category">
+                        <div class="category reveal">
                             <h3>👥 Stakeholder & Team Documents</h3>
                             <ul>
                                 <li>Stakeholder Registry</li>
                                 <li>Project Management Team Contract</li>
                             </ul>
                         </div>
-                        <div class="category">
+                        <div class="category reveal">
                             <h3>📝 Meetings & Records</h3>
                             <ul>
                                 <li>Kickoff Meeting Agenda</li>
@@ -184,9 +171,39 @@
 
     <footer>
         <div class="container">
+            <div class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="../sponsors.html">Sponsors</a>
+                <a href="../gallery.html">Gallery</a>
+                <a href="../lessons.html">Lessons</a>
+                <a href="../meeting-minutes/index.html">Minutes</a>
+            </div>
             <p>&copy; 2026 Dream Builders - Partnering with Sleep in Heavenly Peace (NRV)</p>
         </div>
     </footer>
+
+    <!-- Docs Launcher Modal -->
+    <div class="modal" id="docs-launcher-modal" aria-hidden="true" role="dialog" aria-label="Document browser">
+        <div class="modal__panel">
+            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
+            <h2>Project Documents</h2>
+            <p class="section-desc">Select a document to preview.</p>
+            <div class="docs-tile-grid" id="docs-launcher-grid"></div>
+        </div>
+    </div>
+
+    <!-- Docs Viewer Modal -->
+    <div class="modal modal--viewer" id="docs-viewer-modal" aria-hidden="true" role="dialog" aria-label="Document viewer">
+        <div class="modal__panel">
+            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
+            <h2 class="modal__viewer-title">Document</h2>
+            <iframe class="modal__viewer-frame" src="about:blank" title="Document preview"></iframe>
+            <div class="modal__viewer-actions">
+                <a class="cta-button primary modal__viewer-open" href="#" target="_blank" rel="noopener">Open in New Tab</a>
+                <button class="cta-button secondary" data-close-modal>Close</button>
+            </div>
+        </div>
+    </div>
 
     <script src="../assets/js/script.js"></script>
 </body>
