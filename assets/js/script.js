@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const COLS = 8;
         const ROWS = 5;
         const TOTAL = COLS * ROWS; // 40
+        const REVEAL_SEED = 'dream-builders-quilt-2026';
 
         const container = document.getElementById('quiltTiles');
         const countEl   = document.getElementById('beddingCount');
@@ -285,6 +286,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const parsed = parseFloat(rawValue);
             if (!Number.isFinite(parsed)) return fallback;
             return Math.max(0, Math.min(TOTAL, Math.round(parsed)));
+        }
+
+        function xmur3(str) {
+            let h = 1779033703 ^ str.length;
+            for (let i = 0; i < str.length; i++) {
+                h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+                h = (h << 13) | (h >>> 19);
+            }
+            return function() {
+                h = Math.imul(h ^ (h >>> 16), 2246822507);
+                h = Math.imul(h ^ (h >>> 13), 3266489909);
+                return (h ^= h >>> 16) >>> 0;
+            };
+        }
+
+        function mulberry32(a) {
+            return function() {
+                let t = (a += 0x6D2B79F5);
+                t = Math.imul(t ^ (t >>> 15), t | 1);
+                t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        function createDeterministicOrder(total, seed) {
+            const order = Array.from({ length: total }, function(_, idx) { return idx; });
+            const seedFn = xmur3(seed);
+            const rand = mulberry32(seedFn());
+            for (let i = order.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                const temp = order[i];
+                order[i] = order[j];
+                order[j] = temp;
+            }
+            return order;
         }
 
         function markProgrammaticUpdate() {
@@ -342,6 +378,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('[quilt] first tile bg:', getComputedStyle(first).backgroundImage);
         }
 
+        const order = createDeterministicOrder(TOTAL, REVEAL_SEED);
+
         /**
          * updateBeddingQuilt(count)
          * - Clamps count to 0..40
@@ -353,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const opts = options || {};
             const shouldPop = opts.pop !== false;
             const nextCount = clampCount(count, lastValidCount);
+            const previousCount = currentCount;
             lastValidCount = nextCount;
 
             // Update the count element
@@ -366,8 +405,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             syncProgressUI(nextCount);
 
+            const revealSet = new Set(order.slice(0, nextCount));
             tiles.forEach((tile, idx) => {
-                const isFilled = idx < nextCount;
+                const isFilled = revealSet.has(idx);
                 tile.classList.toggle('is-filled', isFilled);
                 if (!isFilled) tile.classList.remove('pop');
             });
@@ -380,8 +420,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(popTimeout);
                 popTimeout = null;
             }
-            if (shouldPop && nextCount > 0 && nextCount <= TOTAL) {
-                const newest = tiles[nextCount - 1];
+            if (shouldPop && nextCount > previousCount && nextCount > 0 && nextCount <= TOTAL) {
+                const newestIndex = order[nextCount - 1];
+                const newest = tiles[newestIndex];
+                if (!newest) return;
                 newest.classList.remove('pop');
                 // Force reflow to restart animation
                 void newest.offsetWidth;
@@ -391,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 popTimeout = setTimeout(function() {
                     newest.classList.remove('pop');
                     popTimeout = null;
-                }, 500);
+                }, 400);
             }
         }
 
