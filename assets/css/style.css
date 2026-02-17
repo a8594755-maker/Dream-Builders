@@ -626,6 +626,13 @@ body.homepage .home-status-row {
     margin-bottom: var(--space-3);
 }
 
+body.homepage .hero-last-updated {
+    margin: 10px 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    opacity: 0.9;
+}
+
 body.homepage .hero-eyebrow {
     margin-bottom: .7rem;
     color: var(--accent-2);

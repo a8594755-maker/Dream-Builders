@@ -485,12 +485,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const POLL_MS = 60000;
 
         const statusRowEl = document.querySelector('.home-status-row');
+        const lastUpdatedEl = document.getElementById('heroLastUpdated');
         const countEl = document.getElementById('beddingCount');
         const progressTextEl = document.getElementById('beddingProgressText');
         const progressFillEl = document.getElementById('beddingProgressBarFill');
         const progressBarEl = document.getElementById('beddingProgressBar');
 
-        if (!statusRowEl && !countEl) {
+        if (!statusRowEl && !countEl && !lastUpdatedEl) {
             return {
                 fetchNow: function() {
                     return Promise.resolve();
@@ -692,6 +693,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                if (lastUpdatedEl) {
+                    var lastUpdatedValue = data.last_updated == null ? '' : String(data.last_updated).trim();
+                    if (lastUpdatedValue) {
+                        var lastUpdatedText = 'Last updated: ' + lastUpdatedValue;
+                        if (lastUpdatedEl.textContent !== lastUpdatedText) {
+                            lastUpdatedEl.textContent = lastUpdatedText;
+                        }
+                        if (lastUpdatedEl.hidden) lastUpdatedEl.hidden = false;
+                    } else if (!lastUpdatedEl.hidden) {
+                        lastUpdatedEl.hidden = true;
+                    }
+                }
+
                 var beddingCount = data.bedding_count;
                 if (beddingCount == null && data.beddingcount != null) beddingCount = data.beddingcount;
                 if (beddingCount != null && String(beddingCount).trim() !== '') {
@@ -713,7 +727,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 var snapshot = JSON.stringify({
                     money_raised: data.money_raised || '',
                     project_status: data.project_status || '',
-                    bedding_count: data.bedding_count || data.beddingcount || ''
+                    bedding_count: data.bedding_count || data.beddingcount || '',
+                    last_updated: data.last_updated || ''
                 });
                 if (snapshot === lastSnapshot) return;
 
