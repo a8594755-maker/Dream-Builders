@@ -162,14 +162,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (title) title.textContent = name;
             if (openLink) openLink.href = path;
 
-            if (frame) {
-                if (type === 'pdf') {
-                    frame.src = path;
-                } else {
-                    frame.src = 'https://view.officeapps.live.com/op/embed.aspx?src=' +
-                        encodeURIComponent(window.location.origin + '/' + path);
+                if (frame) {
+                    if (type === 'pdf') {
+                        frame.src = path;
+                    } else {
+                        const absoluteDocUrl = new URL(path, window.location.href);
+                        frame.src = 'https://view.officeapps.live.com/op/embed.aspx?src=' +
+                            encodeURIComponent(absoluteDocUrl.href);
+                    }
                 }
-            }
 
             ModalSystem.open('docs-viewer-modal');
         }
