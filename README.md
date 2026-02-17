@@ -229,3 +229,5 @@ When making changes:
 **Sponsor Contact:** Paul Mele  
 **Project Timeline:** February - May 2026  
 **Key Dates:** April 10 (Observation Build), April 25 (Main Build)
+
+<!-- Vercel preview trigger: 2026-02-17T18:27:22Z -->
