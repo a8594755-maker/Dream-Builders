@@ -477,22 +477,34 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* ──────────────────────────────────────
-       8. SHEETS CSV SYNC (bedding count)
+       8. SHEETS CSV SYNC (hero + quilt)
     ────────────────────────────────────── */
-    const SheetSync = (() => {
+    const SheetData = (() => {
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJQ-lyj8CQzPw7zZQ3IV-wRzD89AZCKfPRpLW_qhB6VWlbtQr3Bg7FHD98st2cyGb7K8BBnMCzSdy4/pub?gid=0&single=true&output=csv';
         const TOTAL = 40;
-        const POLL_MS = 30000;
-        // One-time cleanup for legacy admin session state.
-        try {
-            sessionStorage.removeItem('db_admin_authed');
-        } catch (_) {
-            // Ignore storage access failures (privacy mode, browser policy).
+        const POLL_MS = 60000;
+
+        const statusRowEl = document.querySelector('.home-status-row');
+        const countEl = document.getElementById('beddingCount');
+        const progressTextEl = document.getElementById('beddingProgressText');
+        const progressFillEl = document.getElementById('beddingProgressBarFill');
+        const progressBarEl = document.getElementById('beddingProgressBar');
+
+        if (!statusRowEl && !countEl) {
+            return {
+                fetchNow: function() {
+                    return Promise.resolve();
+                },
+                stop: function() {}
+            };
         }
 
-        let isApplyingFromSheet = false;
-        let lastAppliedCount = null;
+        let moneyValueEl = null;
+        let statusValueEl = null;
+        let beddingValueEl = null;
         let pollTimerId = null;
+        let lastSnapshot = '';
+        let isApplying = false;
 
         function clampCount(rawValue, fallback) {
             var fallbackParsed = parseFloat(fallback);
@@ -535,72 +547,107 @@ document.addEventListener('DOMContentLoaded', () => {
             return cells;
         }
 
-        function parseBeddingCountFromCsv(csvText) {
+        function parseKeyValueCsv(csvText) {
             if (typeof csvText !== 'string') return null;
 
             var lines = csvText
                 .replace(/^\uFEFF/, '')
-                .split(/\r?\n/)
-                .map(function(line) { return line.trim(); })
-                .filter(function(line) { return line.length > 0; });
-
+                .split(/\r\n|\n|\r/)
+                .filter(function(line) { return line.trim().length > 0; });
             if (!lines.length) return null;
 
-            // Format B: single value CSV
-            if (lines.length === 1) {
-                var singleCells = splitCsvLine(lines[0]).map(cleanCell).filter(Boolean);
-                if (!singleCells.length) return null;
-                var singleValue = parseFloat(singleCells[0]);
-                if (Number.isFinite(singleValue)) return singleValue;
-            }
-
-            // Format A: key,value rows
             var headerCells = splitCsvLine(lines[0]).map(function(cell) {
                 return cleanCell(cell).toLowerCase();
             });
-            if (headerCells.length >= 2 && headerCells[0] === 'key' && headerCells[1] === 'value') {
-                var cfg = {};
-                for (var i = 1; i < lines.length; i++) {
-                    var rowCells = splitCsvLine(lines[i]);
-                    var key = cleanCell(rowCells[0]).toLowerCase();
-                    var value = cleanCell(rowCells[1]);
-                    if (!key) continue;
-                    cfg[key] = value;
-                }
-                if (cfg.beddingcount != null) {
-                    var keyedValue = parseFloat(cfg.beddingcount);
-                    if (Number.isFinite(keyedValue)) return keyedValue;
-                }
+            var hasHeader = headerCells.length >= 2 && headerCells[0] === 'key' && headerCells[1] === 'value';
+            var rowStart = hasHeader ? 1 : 0;
+            var data = {};
+
+            for (var i = rowStart; i < lines.length; i++) {
+                var rowCells = splitCsvLine(lines[i]);
+                if (!rowCells.length) continue;
+                var key = cleanCell(rowCells[0]).toLowerCase();
+                if (!key) continue;
+                var value = rowCells.length > 1 ? cleanCell(rowCells.slice(1).join(',')) : '';
+                data[key] = value;
             }
 
-            // Fallback: first numeric-looking cell
-            for (var r = 0; r < lines.length; r++) {
-                var cells = splitCsvLine(lines[r]);
-                for (var c = 0; c < cells.length; c++) {
-                    var parsed = parseFloat(cleanCell(cells[c]));
-                    if (Number.isFinite(parsed)) return parsed;
+            return Object.keys(data).length ? data : null;
+        }
+
+        function parseNumber(rawValue) {
+            if (rawValue == null) return NaN;
+            var cleaned = String(rawValue)
+                .trim()
+                .replace(/[$,\s]/g, '')
+                .replace(/[^\d.-]/g, '');
+            if (!cleaned) return NaN;
+            return parseFloat(cleaned);
+        }
+
+        function formatMoney(amount) {
+            return '$' + Math.round(amount).toLocaleString('en-US');
+        }
+
+        function findPillByLabel(label) {
+            if (!statusRowEl) return null;
+            var pills = statusRowEl.querySelectorAll('.status-pill');
+            for (var i = 0; i < pills.length; i++) {
+                var labelEl = pills[i].querySelector('.pill-label');
+                if (!labelEl) continue;
+                if (labelEl.textContent.trim().toLowerCase() === label.toLowerCase()) {
+                    return pills[i];
                 }
             }
-
             return null;
         }
 
+        function ensureHeroPillElements() {
+            if (!statusRowEl) return;
+
+            var moneyPill = findPillByLabel('Money Raised');
+            var statusPill = findPillByLabel('Project Status');
+
+            if (moneyPill) moneyValueEl = moneyPill.querySelector('strong');
+            if (statusPill) statusValueEl = statusPill.querySelector('strong');
+
+            var beddingPill = document.getElementById('heroBeddingPill');
+            if (!beddingPill) {
+                beddingPill = document.createElement('div');
+                beddingPill.className = 'status-pill';
+                beddingPill.id = 'heroBeddingPill';
+                beddingPill.innerHTML =
+                    '<span class="pill-label">Bedding Count</span>' +
+                    '<strong id="heroBeddingCountValue">0 / ' + TOTAL + '</strong>';
+
+                if (moneyPill) {
+                    moneyPill.insertAdjacentElement('afterend', beddingPill);
+                } else if (statusPill) {
+                    statusPill.insertAdjacentElement('beforebegin', beddingPill);
+                } else {
+                    statusRowEl.appendChild(beddingPill);
+                }
+            }
+
+            beddingValueEl = beddingPill.querySelector('strong');
+        }
+
         function getCurrentCountFallback() {
-            var countEl = document.getElementById('beddingCount');
             if (!countEl) return 0;
             var raw = countEl.getAttribute('data-bedding-count');
             if (raw == null || raw === '') raw = countEl.textContent;
             return clampCount(raw, 0);
         }
 
-        function applyUi(count) {
-            var countText = String(count);
-            var percentText = ((count / TOTAL) * 100).toFixed(2).replace(/\.00$/, '') + '%';
+        function applyBeddingUi(rawCount) {
+            var safeCount = clampCount(rawCount, getCurrentCountFallback());
+            var countText = String(safeCount);
+            var progressText = safeCount + ' / ' + TOTAL;
+            var widthText = ((safeCount / TOTAL) * 100).toFixed(2).replace(/\.00$/, '') + '%';
 
-            var countEl = document.getElementById('beddingCount');
-            var progressTextEl = document.getElementById('beddingProgressText');
-            var progressFillEl = document.getElementById('beddingProgressBarFill');
-            var progressBarEl = document.getElementById('beddingProgressBar');
+            if (typeof window.updateBeddingQuilt === 'function') {
+                window.updateBeddingQuilt(safeCount, { pop: false });
+            }
 
             if (countEl) {
                 if (countEl.textContent !== countText) countEl.textContent = countText;
@@ -608,33 +655,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     countEl.setAttribute('data-bedding-count', countText);
                 }
             }
-            if (progressTextEl) {
-                var progressText = count + ' / ' + TOTAL;
-                if (progressTextEl.textContent !== progressText) progressTextEl.textContent = progressText;
+            if (progressTextEl && progressTextEl.textContent !== progressText) {
+                progressTextEl.textContent = progressText;
             }
-            if (progressFillEl && progressFillEl.style.width !== percentText) {
-                progressFillEl.style.width = percentText;
+            if (progressFillEl && progressFillEl.style.width !== widthText) {
+                progressFillEl.style.width = widthText;
             }
             if (progressBarEl && progressBarEl.getAttribute('aria-valuenow') !== countText) {
                 progressBarEl.setAttribute('aria-valuenow', countText);
             }
+            if (beddingValueEl && beddingValueEl.textContent !== progressText) {
+                beddingValueEl.textContent = progressText;
+            }
         }
 
-        function applyCount(rawCount) {
-            if (isApplyingFromSheet) return;
-
-            var safeCount = clampCount(rawCount, getCurrentCountFallback());
-            if (safeCount === lastAppliedCount && safeCount === getCurrentCountFallback()) return;
-
-            isApplyingFromSheet = true;
+        function applyData(data) {
+            if (!data || isApplying) return;
+            isApplying = true;
             try {
-                if (typeof window.updateBeddingQuilt === 'function') {
-                    window.updateBeddingQuilt(safeCount, { pop: false });
+                ensureHeroPillElements();
+
+                var moneyRaw = data.money_raised;
+                if (moneyValueEl && moneyRaw != null && String(moneyRaw).trim() !== '') {
+                    var moneyNumber = parseNumber(moneyRaw);
+                    if (Number.isFinite(moneyNumber)) {
+                        var moneyText = formatMoney(moneyNumber);
+                        if (moneyValueEl.textContent !== moneyText) moneyValueEl.textContent = moneyText;
+                    }
                 }
-                applyUi(safeCount);
-                lastAppliedCount = safeCount;
+
+                var projectStatus = data.project_status;
+                if (statusValueEl && projectStatus != null) {
+                    var statusText = String(projectStatus).trim();
+                    if (statusText && statusValueEl.textContent !== statusText) {
+                        statusValueEl.textContent = statusText;
+                    }
+                }
+
+                var beddingCount = data.bedding_count;
+                if (beddingCount == null && data.beddingcount != null) beddingCount = data.beddingcount;
+                if (beddingCount != null && String(beddingCount).trim() !== '') {
+                    applyBeddingUi(beddingCount);
+                }
             } finally {
-                isApplyingFromSheet = false;
+                isApplying = false;
             }
         }
 
@@ -643,15 +707,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 var response = await fetch(CSV_URL + '&t=' + Date.now(), { cache: 'no-store' });
                 if (!response.ok) return;
                 var csvText = await response.text();
-                var parsedCount = parseBeddingCountFromCsv(csvText);
-                if (!Number.isFinite(parsedCount)) return;
-                applyCount(parsedCount);
+                var data = parseKeyValueCsv(csvText);
+                if (!data) return;
+
+                var snapshot = JSON.stringify({
+                    money_raised: data.money_raised || '',
+                    project_status: data.project_status || '',
+                    bedding_count: data.bedding_count || data.beddingcount || ''
+                });
+                if (snapshot === lastSnapshot) return;
+
+                applyData(data);
+                lastSnapshot = snapshot;
             } catch (_) {
-                // Keep last value on fetch/parse failure
+                // Keep current UI values when network or parsing fails.
             }
         }
 
         function init() {
+            ensureHeroPillElements();
+            applyBeddingUi(getCurrentCountFallback());
             fetchAndApply();
             pollTimerId = setInterval(fetchAndApply, POLL_MS);
         }
