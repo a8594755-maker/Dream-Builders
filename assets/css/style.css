@@ -966,6 +966,66 @@ body.subpage .sp-text-link {
 
 body.subpage .sp-text-link:hover { color: var(--accent-2); }
 
+body.subpage .sp-form {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--stroke);
+    display: grid;
+    gap: var(--space-3);
+}
+
+body.subpage .sp-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+}
+
+body.subpage .sp-form-field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+body.subpage .sp-form label {
+    color: var(--ink-2);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+body.subpage .sp-form input,
+body.subpage .sp-form select,
+body.subpage .sp-form textarea {
+    width: 100%;
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--ink-2);
+    font: inherit;
+    padding: 0.68rem 0.75rem;
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+body.subpage .sp-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+body.subpage .sp-form input:focus,
+body.subpage .sp-form select:focus,
+body.subpage .sp-form textarea:focus {
+    outline: none;
+    border-color: var(--stroke-strong);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.94), 0 0 0 6px rgba(73, 157, 217, 0.24);
+}
+
+body.subpage .sp-form-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
 /* ══════════════════════════════════════════
    15. GALLERY
    ══════════════════════════════════════════ */
@@ -1347,6 +1407,26 @@ body.subpage .sp-text-link:hover { color: var(--accent-2); }
     transform: scale(1.08);
 }
 
+.sp-modal-head {
+    margin-bottom: var(--space-3);
+    padding-right: calc(var(--space-4) + 16px);
+}
+
+.sp-modal-head h2 {
+    margin-bottom: var(--space-2);
+}
+
+.sp-modal-head p {
+    margin: 0;
+    color: var(--ink-3);
+}
+
+.sp-form--modal {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
 /* Docs launcher tile grid inside modal */
 .docs-tile-grid {
     display: grid;
@@ -1646,6 +1726,10 @@ footer p {
 @media (min-width: 768px) {
     .container {
         width: min(var(--container-max), calc(100% - var(--space-6)));
+    }
+
+    body.subpage .sp-form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .section,

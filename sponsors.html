@@ -16,6 +16,7 @@
                     <div class="sp-hero-text">
                         <h1>Our Sponsors &amp; Partners</h1>
                         <p>Your support helps us partner with Sleep in Heavenly Peace (NRV) to ensure no child sleeps on the floor in our town.</p>
+                        <p><strong>Top need right now: bedding donations via Amazon Wishlist (coming soon).</strong></p>
                         <nav class="primary-link-row primary-link-row--subpage" aria-label="Primary pages">
                             <a href="sponsors.html" class="is-active">Sponsors</a>
                             <a href="gallery.html">Gallery</a>
@@ -23,8 +24,9 @@
                             <a href="docs/index.html">Docs</a>
                         </nav>
                         <div class="sp-hero-actions">
-                            <a href="https://shpbeds.org/" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Visit SHP &rarr;</a>
-                            <a href="#become-a-sponsor" class="sp-btn sp-btn-outline">Become a Sponsor</a>
+                            <a href="#wishlist" class="sp-btn sp-btn-white">Donate Bedding (Amazon Wishlist) &rarr; (Coming soon)</a>
+                            <a href="#donation-intent-modal" class="sp-btn sp-btn-outline" data-open-modal="donation-intent-modal">Donate Funds (Intent Form)</a>
+                            <a href="https://shpbeds.org/" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Visit SHP &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -61,24 +63,36 @@
             </div>
         </section>
 
-        <!-- How Support Works -->
+        <!-- Live Tracker -->
         <section class="sp-section sp-section-gray">
             <div class="container">
                 <div class="sp-section-head reveal">
-                    <div class="sp-tag">Funding</div>
-                    <h2>How Support Works</h2>
-                    <p>Coming soon &mdash; details on how resources are gathered and put to use.</p>
+                    <div class="sp-tag">Live Tracker</div>
+                    <h2>Community Progress</h2>
+                    <p>Updated from our shared donation-intent tracker.</p>
+                </div>
+                <div class="sp-meta-row reveal" aria-live="polite">
+                    <div class="sp-meta">
+                        <span class="sp-meta-label">Donation Intent Total</span>
+                        <h2 id="donationIntentTotal">$0</h2>
+                    </div>
+                    <div class="sp-meta">
+                        <span class="sp-meta-label">Donation Intent Count</span>
+                        <h2 id="donationIntentCount">0</h2>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Ways to Support -->
-        <section class="sp-section">
+        <section class="sp-section" id="wishlist">
             <div class="container">
                 <div class="sp-section-head reveal">
                     <div class="sp-tag">Get Involved</div>
                     <h2>Ways to Support</h2>
-                    <p>Coming soon &mdash; we are finalizing ways you can contribute to our mission.</p>
+                    <p><strong>Donate Bedding (Amazon Wishlist):</strong> Coming soon &mdash; we are finalizing our official wishlist link.</p>
+                    <p><strong>Donate Funds:</strong> Open the intent form pop-up, submit, then continue to SHP donation checkout.</p>
+                    <p>Coming soon &mdash; volunteer build days and additional partner opportunities.</p>
                 </div>
             </div>
         </section>
@@ -89,7 +103,7 @@
                 <div class="sp-section-head reveal">
                     <div class="sp-tag">Thank You</div>
                     <h2>Sponsor Recognition</h2>
-                    <p>Coming soon &mdash; sponsors and partners will be recognized here.</p>
+                    <p>Coming soon &mdash; sponsor tiers, recognition highlights, and partner spotlights will be published here.</p>
                 </div>
             </div>
         </section>
@@ -102,12 +116,111 @@
                     <p>Interested in sponsoring or partnering with us? We&rsquo;d love to connect. Reach out to learn how your support can make an impact.</p>
                     <div class="sp-hero-actions">
                         <a href="mailto:dreambuilders@example.com?subject=Sponsor%20Inquiry" class="sp-btn sp-btn-white">Email Us</a>
-                        <a href="#" class="sp-btn sp-btn-outline">Sponsor Inquiry Form</a>
+                        <a href="#sponsor-inquiry-modal" class="sp-btn sp-btn-outline" data-open-modal="sponsor-inquiry-modal">Sponsor Inquiry Form</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <div class="modal" id="donation-intent-modal" aria-hidden="true" role="dialog" aria-labelledby="donation-intent-title">
+        <div class="modal__panel">
+            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
+            <div class="sp-modal-head">
+                <h2 id="donation-intent-title">Donate Funds (Intent Form)</h2>
+                <p>Please submit your donation intent before continuing to the donation page.</p>
+            </div>
+
+            <form class="sp-form sp-form--modal" method="POST" action="https://script.google.com/macros/s/AKfycbxUuU9D-nMRqAH2HemhJxrwl8e3rKCuv70tImFjySlSAfySTOOltP9Wmv-W6HRV_PDC/exec">
+                <input type="hidden" name="page" value="sponsors">
+                <input type="hidden" name="type" value="cash_intent">
+
+                <div class="sp-form-grid">
+                    <div class="sp-form-field">
+                        <label for="amount-usd">Amount (USD) <span aria-hidden="true">*</span></label>
+                        <input id="amount-usd" name="amount_usd" type="number" min="1" required>
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="intent-name">Name</label>
+                        <input id="intent-name" name="name" type="text">
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="intent-organization">Organization</label>
+                        <input id="intent-organization" name="organization" type="text">
+                    </div>
+                </div>
+
+                <p>Please don&rsquo;t include sensitive personal information. We only use this to estimate interest.</p>
+
+                <button type="submit" class="sp-btn sp-btn-white">Submit &amp; Continue to Donate &rarr;</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="sponsor-inquiry-modal" aria-hidden="true" role="dialog" aria-labelledby="sponsor-inquiry-title">
+        <div class="modal__panel">
+            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
+            <div class="sp-modal-head">
+                <h2 id="sponsor-inquiry-title">Sponsor Inquiry Form</h2>
+                <p>Tell us how you&rsquo;d like to support Dream Builders. We&rsquo;ll follow up soon.</p>
+            </div>
+
+            <form id="sponsor-inquiry-form" class="sp-form sp-form--modal" name="sponsor-inquiry" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="sponsor-inquiry">
+
+                <p class="sp-form-honeypot" aria-hidden="true">
+                    <label>Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field"></label>
+                </p>
+
+                <div class="sp-form-grid">
+                    <div class="sp-form-field">
+                        <label for="sponsor-name">Name <span aria-hidden="true">*</span></label>
+                        <input id="sponsor-name" name="name" type="text" required>
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="sponsor-organization">Organization</label>
+                        <input id="sponsor-organization" name="organization" type="text">
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="sponsor-email">Email <span aria-hidden="true">*</span></label>
+                        <input id="sponsor-email" name="email" type="email" required>
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="sponsor-phone">Phone</label>
+                        <input id="sponsor-phone" name="phone" type="tel">
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="support-type">Type of Support <span aria-hidden="true">*</span></label>
+                        <select id="support-type" name="type_of_support" required>
+                            <option value="" selected disabled>Select support type</option>
+                            <option value="Financial">Financial</option>
+                            <option value="In-kind">In-kind</option>
+                            <option value="Volunteer">Volunteer</option>
+                            <option value="Event Sponsor">Event Sponsor</option>
+                        </select>
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="estimated-budget">Estimated Budget or Donation Type</label>
+                        <input id="estimated-budget" name="estimated_budget_or_donation_type" type="text">
+                    </div>
+                </div>
+
+                <div class="sp-form-field">
+                    <label for="sponsor-message">Message <span aria-hidden="true">*</span></label>
+                    <textarea id="sponsor-message" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="sp-btn sp-btn-white">Submit Sponsor Inquiry</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -122,5 +235,113 @@
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        (function() {
+            var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJQ-lyj8CQzPw7zZQ3IV-wRzD89AZCKfPRpLW_qhB6VWlbtQr3Bg7FHD98st2cyGb7K8BBnMCzSdy4/pub?gid=0&single=true&output=csv';
+            var POLL_MS = 60000;
+            var totalEl = document.getElementById('donationIntentTotal');
+            var countEl = document.getElementById('donationIntentCount');
+
+            function cleanCell(raw) {
+                var str = String(raw == null ? '' : raw).trim();
+                if (str.length >= 2 && str.charAt(0) === '"' && str.charAt(str.length - 1) === '"') {
+                    str = str.slice(1, -1);
+                }
+                return str.trim();
+            }
+
+            function splitCsvLine(line) {
+                var cells = [];
+                var current = '';
+                var inQuotes = false;
+
+                for (var i = 0; i < line.length; i++) {
+                    var ch = line.charAt(i);
+                    if (ch === '"') {
+                        if (inQuotes && line.charAt(i + 1) === '"') {
+                            current += '"';
+                            i += 1;
+                        } else {
+                            inQuotes = !inQuotes;
+                        }
+                    } else if (ch === ',' && !inQuotes) {
+                        cells.push(current);
+                        current = '';
+                    } else {
+                        current += ch;
+                    }
+                }
+                cells.push(current);
+                return cells;
+            }
+
+            function parseKeyValueCsv(csvText) {
+                if (typeof csvText !== 'string') return null;
+
+                var lines = csvText
+                    .replace(/^\uFEFF/, '')
+                    .split(/\r\n|\n|\r/)
+                    .filter(function(line) { return line.trim().length > 0; });
+                if (!lines.length) return null;
+
+                var headerCells = splitCsvLine(lines[0]).map(function(cell) {
+                    return cleanCell(cell).toLowerCase();
+                });
+                var hasHeader = headerCells.length >= 2 && headerCells[0] === 'key' && headerCells[1] === 'value';
+                var rowStart = hasHeader ? 1 : 0;
+                var data = {};
+
+                for (var i = rowStart; i < lines.length; i++) {
+                    var rowCells = splitCsvLine(lines[i]);
+                    if (!rowCells.length) continue;
+                    var key = cleanCell(rowCells[0]).toLowerCase();
+                    if (!key) continue;
+                    var value = rowCells.length > 1 ? cleanCell(rowCells.slice(1).join(',')) : '';
+                    data[key] = value;
+                }
+
+                return Object.keys(data).length ? data : null;
+            }
+
+            function parseNumber(rawValue) {
+                if (rawValue == null) return NaN;
+                var cleaned = String(rawValue)
+                    .trim()
+                    .replace(/[$,\s]/g, '')
+                    .replace(/[^\d.-]/g, '');
+                if (!cleaned) return NaN;
+                return parseFloat(cleaned);
+            }
+
+            function formatMoney(amount) {
+                return '$' + Math.round(amount).toLocaleString('en-US');
+            }
+
+            async function updateIntentValues() {
+                try {
+                    var response = await fetch(CSV_URL + '&t=' + Date.now(), { cache: 'no-store' });
+                    if (!response.ok) return;
+                    var csvText = await response.text();
+                    var data = parseKeyValueCsv(csvText);
+                    if (!data) return;
+
+                    var total = parseNumber(data.donation_intent_total);
+                    if (Number.isFinite(total) && totalEl) {
+                        totalEl.textContent = formatMoney(total);
+                    }
+
+                    var count = parseNumber(data.donation_intent_count);
+                    if (Number.isFinite(count) && countEl) {
+                        countEl.textContent = String(Math.max(0, Math.round(count)));
+                    }
+                } catch (_) {
+                    // Keep existing values when fetch/parsing fails.
+                }
+            }
+
+            updateIntentValues();
+            setInterval(updateIntentValues, POLL_MS);
+        })();
+    </script>
 </body>
 </html>
