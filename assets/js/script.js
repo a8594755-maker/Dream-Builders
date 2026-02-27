@@ -484,14 +484,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const TOTAL = 40;
         const POLL_MS = 60000;
 
-        const statusRowEl = document.querySelector('.home-status-row');
         const lastUpdatedEl = document.getElementById('heroLastUpdated');
         const countEl = document.getElementById('beddingCount');
         const progressTextEl = document.getElementById('beddingProgressText');
         const progressFillEl = document.getElementById('beddingProgressBarFill');
         const progressBarEl = document.getElementById('beddingProgressBar');
 
-        if (!statusRowEl && !countEl && !lastUpdatedEl) {
+        // KPI elements in the hero dashboard (data-kpi attribute selectors)
+        const moneyValueEl = document.querySelector('[data-kpi="money-raised"]');
+        const statusValueEl = document.querySelector('[data-kpi="project-status"]');
+        const beddingValueEl = document.querySelector('[data-kpi="bedding-count"]');
+
+        if (!moneyValueEl && !countEl && !lastUpdatedEl) {
             return {
                 fetchNow: function() {
                     return Promise.resolve();
@@ -499,10 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 stop: function() {}
             };
         }
-
-        let moneyValueEl = null;
-        let statusValueEl = null;
-        let beddingValueEl = null;
         let pollTimerId = null;
         let lastSnapshot = '';
         let isApplying = false;
@@ -590,48 +590,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return '$' + Math.round(amount).toLocaleString('en-US');
         }
 
-        function findPillByLabel(label) {
-            if (!statusRowEl) return null;
-            var pills = statusRowEl.querySelectorAll('.status-pill');
-            for (var i = 0; i < pills.length; i++) {
-                var labelEl = pills[i].querySelector('.pill-label');
-                if (!labelEl) continue;
-                if (labelEl.textContent.trim().toLowerCase() === label.toLowerCase()) {
-                    return pills[i];
-                }
-            }
-            return null;
-        }
-
-        function ensureHeroPillElements() {
-            if (!statusRowEl) return;
-
-            var moneyPill = findPillByLabel('Money Raised');
-            var statusPill = findPillByLabel('Project Status');
-
-            if (moneyPill) moneyValueEl = moneyPill.querySelector('strong');
-            if (statusPill) statusValueEl = statusPill.querySelector('strong');
-
-            var beddingPill = document.getElementById('heroBeddingPill');
-            if (!beddingPill) {
-                beddingPill = document.createElement('div');
-                beddingPill.className = 'status-pill';
-                beddingPill.id = 'heroBeddingPill';
-                beddingPill.innerHTML =
-                    '<span class="pill-label">Bedding Count</span>' +
-                    '<strong id="heroBeddingCountValue">0 / ' + TOTAL + '</strong>';
-
-                if (moneyPill) {
-                    moneyPill.insertAdjacentElement('afterend', beddingPill);
-                } else if (statusPill) {
-                    statusPill.insertAdjacentElement('beforebegin', beddingPill);
-                } else {
-                    statusRowEl.appendChild(beddingPill);
-                }
-            }
-
-            beddingValueEl = beddingPill.querySelector('strong');
-        }
+        /* findPillByLabel and ensureHeroPillElements removed –
+           KPI elements are now selected directly via data-kpi attributes above */
 
         function getCurrentCountFallback() {
             if (!countEl) return 0;
@@ -674,8 +634,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!data || isApplying) return;
             isApplying = true;
             try {
-                ensureHeroPillElements();
-
                 var moneyRaw = data.money_raised;
                 if (moneyValueEl && moneyRaw != null && String(moneyRaw).trim() !== '') {
                     var moneyNumber = parseNumber(moneyRaw);
@@ -711,6 +669,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (beddingCount != null && String(beddingCount).trim() !== '') {
                     applyBeddingUi(beddingCount);
                 }
+
+                // Donation intent (homepage tracker)
+                var homeTotalEl = document.getElementById('homeDonationTotal');
+                var homeCountEl = document.getElementById('homeDonationCount');
+                var donationTotal = data.donation_intent_total;
+                if (homeTotalEl && donationTotal != null && String(donationTotal).trim() !== '') {
+                    var totalNum = parseNumber(donationTotal);
+                    if (Number.isFinite(totalNum)) {
+                        homeTotalEl.textContent = formatMoney(totalNum);
+                    }
+                }
+                var donationCount = data.donation_intent_count;
+                if (homeCountEl && donationCount != null && String(donationCount).trim() !== '') {
+                    var countNum = parseNumber(donationCount);
+                    if (Number.isFinite(countNum)) {
+                        homeCountEl.textContent = String(Math.max(0, Math.round(countNum)));
+                    }
+                }
             } finally {
                 isApplying = false;
             }
@@ -740,7 +716,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function init() {
-            ensureHeroPillElements();
             applyBeddingUi(getCurrentCountFallback());
             fetchAndApply();
             pollTimerId = setInterval(fetchAndApply, POLL_MS);
@@ -755,5 +730,61 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     })();
+
+    /* ──────────────────────────────────────
+       9. HEADER SCROLL SHADOW
+    ────────────────────────────────────── */
+    const siteHeader = document.getElementById('siteHeader');
+    if (siteHeader) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    siteHeader.classList.toggle('site-header--scrolled', window.scrollY > 10);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+    /* ──────────────────────────────────────
+       10. MOBILE NAV TOGGLE
+    ────────────────────────────────────── */
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('is-open');
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+                navMenu.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.focus();
+            }
+        });
+    }
+
+    /* ──────────────────────────────────────
+       11. ACTIVE PAGE DETECTION
+    ────────────────────────────────────── */
+    document.querySelectorAll('.site-header__link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const path = window.location.pathname;
+        if (path.endsWith(href) || path.endsWith(href.replace(/^\.\.\//, ''))) {
+            link.classList.add('is-active');
+        }
+    });
 
 });

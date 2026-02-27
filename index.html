@@ -4,51 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Builders - Supporting Sleep in Heavenly Peace (NRV)</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=8">
+    <style>
+        /* Critical inline styles – header + sponsors */
+        .site-header{position:fixed;top:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.96);border-bottom:1px solid #d5e4ef;backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);box-shadow:0 1px 8px rgba(23,58,81,.06);transition:box-shadow .3s ease}
+        body.homepage>main{padding-top:58px}
+        .site-header__inner{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;max-width:1100px;min-height:58px;margin:0 auto;padding:0 16px}
+        .site-header__brand{display:flex;align-items:baseline;gap:.45rem;text-decoration:none;flex:0 0 auto;color:#172a37}
+        .site-header__brand:hover{color:#172a37}
+        .site-header__brand-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:inherit;letter-spacing:.01em;line-height:1}
+        .site-header__brand-tag{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1f4f74;opacity:.7}
+        .site-header__nav{display:flex;flex-wrap:nowrap;align-items:center;gap:.2rem;flex:0 0 auto}
+        .site-header__link{display:inline-flex;align-items:center;padding:.38rem .72rem;border-radius:999px;font-size:.84rem;font-weight:600;color:#314b5d;text-decoration:none;transition:color .3s ease,background .3s ease;white-space:nowrap}
+        .site-header__link:hover{color:#1f4f74;background:rgba(99,173,223,.08)}
+        .site-header__cta{display:inline-flex;align-items:center;justify-content:center;margin-left:.4rem;padding:.42rem 1.1rem;border-radius:999px;font-size:.84rem;font-weight:700;color:#fff!important;background:linear-gradient(135deg,#63addf,#1f4f74);text-decoration:none;box-shadow:0 4px 14px rgba(36,108,157,.22);transition:transform .3s ease,box-shadow .3s ease;white-space:nowrap}
+        .site-header__cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(36,108,157,.3);color:#fff!important}
+        
+        /* Sponsors section */
+        .home-sponsors__featured{display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:start;padding:24px;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(248,252,255,.7));border:1px solid #d5e4ef;border-radius:22px;box-shadow:0 14px 34px rgba(23,58,81,.11);backdrop-filter:blur(10px);margin-bottom:24px;position:relative;overflow:hidden}
+        .home-sponsors__logo{width:140px;height:auto;border-radius:16px;background:linear-gradient(135deg,#63addf,#1f4f74);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(31,79,116,.28);position:relative;z-index:1}
+        .home-sponsors__logo span{font-weight:900;font-size:1.55rem;line-height:1}
+        .home-sponsors__logo small{opacity:.65;letter-spacing:.12em;font-size:.62rem;font-weight:700}
+        .home-sponsors__logo--img{width:140px;height:auto;background:none;padding:0;border-radius:0;box-shadow:none}
+        .home-sponsors__logo--img img{width:100%;height:auto;object-fit:contain;display:block}
+        .home-sponsors__info{position:relative;z-index:1}
+        .home-sponsors__tracker{display:flex;flex-wrap:wrap;gap:32px;margin-bottom:24px;padding:24px;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(248,252,255,.7));border:1px solid #d5e4ef;border-radius:22px;box-shadow:0 10px 30px rgba(23,58,81,.09);backdrop-filter:blur(10px)}
+        .home-sponsors__stat{display:flex;flex-direction:column;gap:2px}
+        .home-sponsors__stat-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#638297;font-weight:700}
+        .home-sponsors__stat strong{font-size:1.6rem;color:#172a37;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
+        .home-sponsors__actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+        .home-sponsors__more{text-align:center;font-size:.9rem;margin:0}
+        /* Hero two-column layout */
+        .home-hero__grid{display:grid;grid-template-columns:1fr;gap:32px;max-width:980px;margin:0 auto;position:relative;z-index:1}
+        @media(min-width:768px){.home-hero__grid{grid-template-columns:1.35fr 1fr;align-items:start;gap:48px}}
+        .home-hero__message{padding-top:12px}
+        .home-hero__subtitle{max-width:54ch;margin-bottom:24px;color:#49667a;font-size:1rem;line-height:1.72}
+        .home-hero__dashboard{padding:24px;border-radius:28px;border:1px solid #d5e4ef;background:linear-gradient(150deg,rgba(255,255,255,.82),rgba(255,255,255,.62));box-shadow:0 14px 34px rgba(23,58,81,.11);backdrop-filter:blur(16px) saturate(125%);-webkit-backdrop-filter:blur(16px) saturate(125%);position:relative;overflow:hidden}
+        .home-hero__dashboard-title{font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1f4f74;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #d5e4ef;position:relative;z-index:1}
+        .home-hero__kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;position:relative;z-index:1}
+        .home-hero__kpi{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:10px;border:1px solid rgba(182,217,239,.5);background:rgba(255,255,255,.55)}
+        .home-hero__kpi-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#638297}
+        .home-hero__kpi-value{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.25rem,2vw,1.6rem);font-weight:700;color:#172a37;line-height:1.2}
+        .home-hero__dashboard-meta{padding-top:12px;border-top:1px solid #d5e4ef;position:relative;z-index:1}
+        .home-hero__partner-tag{display:block;font-size:.78rem;font-weight:600;color:#49667a;margin-bottom:4px}
+        .home-hero__last-updated{margin:0;font-size:.74rem;color:#638297;opacity:.85}
+        @media(max-width:768px){.site-header__toggle{display:flex!important;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;padding:6px;background:none;border:1px solid #d5e4ef;border-radius:6px;cursor:pointer}.site-header__nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:16px;gap:.25rem;background:rgba(255,255,255,.97);border-bottom:1px solid #d5e4ef;box-shadow:0 8px 24px rgba(23,58,81,.10);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.site-header__nav.is-open{display:flex}.site-header__link,.site-header__cta{justify-content:center;padding:.6rem 1rem}.site-header__cta{margin-left:0;margin-top:.25rem}}
+    </style>
 </head>
 <body class="homepage">
+    <header class="site-header" id="siteHeader">
+        <div class="site-header__inner">
+            <a href="index.html" class="site-header__brand">
+                <span class="site-header__brand-name">Dream Builders</span>
+                <span class="site-header__brand-tag">SHP-NRV</span>
+            </a>
+            <button class="site-header__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+                <span class="site-header__toggle-bar"></span>
+                <span class="site-header__toggle-bar"></span>
+                <span class="site-header__toggle-bar"></span>
+            </button>
+            <nav class="site-header__nav" id="navMenu" aria-label="Main navigation">
+                <a href="team.html" class="site-header__link">Team</a>
+                <a href="sponsors.html" class="site-header__link">Sponsors</a>
+                <a href="gallery.html" class="site-header__link">Gallery</a>
+                <a href="meeting-minutes/index.html" class="site-header__link">Minutes</a>
+                <a href="lessons.html" class="site-header__link">Lessons</a>
+                <a href="docs/index.html" class="site-header__link">Docs</a>
+                <a href="sponsors.html#become-a-sponsor" class="site-header__cta">Support</a>
+            </nav>
+        </div>
+    </header>
+
     <main>
         <section class="hero home-hero">
             <div class="container">
-                <div class="home-hero-panel reveal hero-enter">
-                    <div class="home-status-row" aria-label="Project status">
-                        <div class="status-pill">
-                            <span class="pill-label">Money Raised</span>
-                            <strong>$0</strong>
-                        </div>
-                        <div class="status-pill">
-                            <span class="pill-label">Project Status</span>
-                            <strong>Active Planning</strong>
-                        </div>
-                    </div>
-                    <p class="hero-last-updated" id="heroLastUpdated" hidden>Last updated: --</p>
-
-                    <p class="hero-eyebrow">Dream Builders x SHP-NRV</p>
-                    <h1>Building Better Nights for Children in the New River Valley</h1>
-                    <p class="hero-subtitle">We support Sleep in Heavenly Peace (NRV) through fundraising, bedding collection, and coordinated build-day service so every child has a bed to sleep in.</p>
-
-                    <div class="hero-actions">
-                        <a href="#story" class="cta-button primary">Explore Our Plan</a>
-                        <a href="docs/index.html" class="cta-button secondary">View Documentation</a>
-                    </div>
-
-                    <div class="hero-meta" aria-label="Impact and partners">
-                        <div class="meta-item">
-                            <span class="meta-kicker">Impact Goal</span>
-                            <span class="meta-value">40 Beds Supported</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-kicker">Partners</span>
-                            <span class="meta-value">SHP-NRV + Community Sponsors</span>
+                <div class="home-hero__grid reveal hero-enter">
+                    <div class="home-hero__message">
+                        <h1>Building Better Nights for Children in the New River Valley</h1>
+                        <p class="home-hero__subtitle">We support Sleep in Heavenly Peace (NRV) through fundraising, bedding collection, and coordinated build-day service so every child has a bed to sleep in.</p>
+                        <div class="hero-actions">
+                            <a href="#story" class="cta-button primary">Explore Our Plan</a>
+                            <a href="docs/index.html" class="cta-button secondary">View Documentation</a>
                         </div>
                     </div>
 
-                    <nav class="primary-link-row" aria-label="Primary pages">
-                        <a href="sponsors.html">Sponsors</a>
-                        <a href="gallery.html">Gallery</a>
-                        <a href="meeting-minutes/index.html">Meeting Minutes</a>
-                        <a href="docs/index.html">Docs</a>
-                    </nav>
+                    <aside class="home-hero__dashboard" aria-label="Project dashboard">
+                        <h2 class="home-hero__dashboard-title">Project Dashboard</h2>
+                        <div class="home-hero__kpi-grid">
+                            <div class="home-hero__kpi">
+                                <span class="home-hero__kpi-label">Money Raised</span>
+                                <strong class="home-hero__kpi-value" data-kpi="money-raised">$0</strong>
+                            </div>
+                            <div class="home-hero__kpi">
+                                <span class="home-hero__kpi-label">Bedding Count</span>
+                                <strong class="home-hero__kpi-value" data-kpi="bedding-count">0 / 40</strong>
+                            </div>
+                            <div class="home-hero__kpi">
+                                <span class="home-hero__kpi-label">Impact Goal</span>
+                                <strong class="home-hero__kpi-value" data-kpi="impact-goal">40 Beds</strong>
+                            </div>
+                            <div class="home-hero__kpi">
+                                <span class="home-hero__kpi-label">Project Status</span>
+                                <strong class="home-hero__kpi-value" data-kpi="project-status">Active Planning</strong>
+                            </div>
+                        </div>
+                        <div class="home-hero__dashboard-meta">
+                            <span class="home-hero__partner-tag">Partner: SHP-NRV + Community Sponsors</span>
+                            <p class="home-hero__last-updated" id="heroLastUpdated" hidden>Last updated: --</p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section id="support" class="home-sponsors">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="section-label">Support</p>
+                    <h2 class="section-heading">Our Sponsors &amp; Partners</h2>
+                    <p class="section-desc">Your support helps us partner with Sleep in Heavenly Peace (NRV) to ensure no child sleeps on the floor in our town.</p>
+                </div>
+
+                <div class="home-sponsors__featured reveal">
+                    <div class="home-sponsors__logo home-sponsors__logo--img">
+                        <img src="PNG/SLEEP IN HEAVENLY PEACE LOGO.png" alt="Sleep in Heavenly Peace - New River Valley" loading="lazy">
+                    </div>
+                    <div class="home-sponsors__info">
+                        <div class="sp-tag">Primary Partner</div>
+                        <h3>Sleep in Heavenly Peace &ndash; NRV</h3>
+                        <p>SHP&ndash;NRV leads build efforts and coordinates with families in need across the New River Valley. They provide expertise, materials coordination, and direct community connections.</p>
+                        <a href="https://shpbeds.org/" target="_blank" rel="noopener">shpbeds.org &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="home-sponsors__tracker reveal" aria-live="polite">
+                    <div class="home-sponsors__stat">
+                        <span class="home-sponsors__stat-label">Donation Intent Total</span>
+                        <strong id="homeDonationTotal">$0</strong>
+                    </div>
+                    <div class="home-sponsors__stat">
+                        <span class="home-sponsors__stat-label">Donation Intent Count</span>
+                        <strong id="homeDonationCount">0</strong>
+                    </div>
+                </div>
+
+                <div class="home-sponsors__actions reveal">
+                    <a href="sponsors.html#wishlist" class="sp-btn sp-btn-white">Donate Bedding (Amazon) &rarr; (Coming soon)</a>
+                    <a href="#donation-intent-modal" class="sp-btn sp-btn-outline" data-open-modal="donation-intent-modal">Donate Funds (Intent Form)</a>
+                    <a href="https://shpbeds.org/" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Visit SHP &rarr;</a>
+                </div>
+
+                <p class="home-sponsors__more reveal"><a href="sponsors.html">View full sponsors &amp; partners page &rarr;</a></p>
+            </div>
+        </section>
+
+        <section class="course-mission">
+            <div class="container">
+                <div class="course-mission__inner reveal">
+                    <div class="course-mission__content">
+                        <p class="section-label">About This Project</p>
+                        <h2 class="section-heading">BIT 4484 &mdash; Project Management</h2>
+                        <p class="course-mission__lead">Spring 2026 &middot; Virginia Tech &middot; Dr. Jason Deane</p>
+                        <p>Dream Builders is a student-led project management initiative guided by Virginia Tech&rsquo;s motto, <em>Ut Prosim</em> &mdash; &ldquo;That I May Serve.&rdquo; Through structured project planning, stakeholder engagement, and disciplined execution, our team applies classroom knowledge to real community impact.</p>
+                        <p>We partner with organizations like Sleep in Heavenly Peace (NRV) to address tangible needs &mdash; coordinating fundraising, resource collection, and volunteer builds so that no child in the New River Valley sleeps on the floor.</p>
+                    </div>
+                    <aside class="course-mission__aside">
+                        <div class="course-mission__badge">
+                            <span class="course-mission__badge-vt">VT</span>
+                            <span class="course-mission__badge-label">Ut Prosim</span>
+                        </div>
+                        <ul class="course-mission__highlights">
+                            <li>Applied project management methodology</li>
+                            <li>Community-focused service learning</li>
+                            <li>Real stakeholder engagement</li>
+                            <li>Measurable deliverables &amp; outcomes</li>
+                        </ul>
+                    </aside>
                 </div>
             </div>
         </section>
@@ -172,25 +303,12 @@
                 </div>
             </div>
         </section>
-
-        <section class="spotlight">
-            <div class="container">
-                <div class="spotlight-panel reveal">
-                    <p class="section-label">Spotlight</p>
-                    <h2 class="section-heading">Want to Support the Mission?</h2>
-                    <p class="section-desc">Follow progress, share resources, and connect with our team through project updates and partner channels.</p>
-                    <div class="hero-actions">
-                        <a href="sponsors.html" class="cta-button primary">See Sponsors</a>
-                        <a href="https://shpbeds.org/" class="cta-button secondary" target="_blank" rel="noopener">Visit SHP Official Site</a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
         <div class="container">
             <div class="footer-links">
+                <a href="team.html">Team</a>
                 <a href="sponsors.html">Sponsors</a>
                 <a href="gallery.html">Gallery</a>
                 <a href="lessons.html">Lessons</a>
@@ -201,6 +319,42 @@
             <p>&copy; 2026 Dream Builders &mdash; Partnering with Sleep in Heavenly Peace (NRV)</p>
         </div>
     </footer>
+
+    <div class="modal" id="donation-intent-modal" aria-hidden="true" role="dialog" aria-labelledby="donation-intent-title">
+        <div class="modal__panel">
+            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
+            <div class="sp-modal-head">
+                <h2 id="donation-intent-title">Donate Funds (Intent Form)</h2>
+                <p>Please submit your donation intent before continuing to the donation page.</p>
+            </div>
+
+            <form class="sp-form sp-form--modal" method="POST" action="https://script.google.com/macros/s/AKfycbxUuU9D-nMRqAH2HemhJxrwl8e3rKCuv70tImFjySlSAfySTOOltP9Wmv-W6HRV_PDC/exec">
+                <input type="hidden" name="page" value="homepage">
+                <input type="hidden" name="type" value="cash_intent">
+
+                <div class="sp-form-grid">
+                    <div class="sp-form-field">
+                        <label for="amount-usd">Amount (USD) <span aria-hidden="true">*</span></label>
+                        <input id="amount-usd" name="amount_usd" type="number" min="1" required>
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="intent-name">Name</label>
+                        <input id="intent-name" name="name" type="text">
+                    </div>
+
+                    <div class="sp-form-field">
+                        <label for="intent-organization">Organization</label>
+                        <input id="intent-organization" name="organization" type="text">
+                    </div>
+                </div>
+
+                <p>Please don&rsquo;t include sensitive personal information. We only use this to estimate interest.</p>
+
+                <button type="submit" class="sp-btn sp-btn-white">Submit &amp; Continue to Donate &rarr;</button>
+            </form>
+        </div>
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
