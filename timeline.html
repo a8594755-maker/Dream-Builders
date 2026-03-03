@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Schedule - Dream Builders</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=8">
+    <style>.site-header{position:fixed;top:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.96);border-bottom:1px solid #d5e4ef;backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);box-shadow:0 1px 8px rgba(23,58,81,.06)}.site-header__inner{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;max-width:1100px;min-height:58px;margin:0 auto;padding:0 16px}.site-header__brand{display:flex;align-items:baseline;gap:.45rem;text-decoration:none;color:#172a37}.site-header__brand-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;line-height:1}.site-header__brand-tag{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1f4f74;opacity:.7}.site-header__nav{display:flex;align-items:center;gap:.2rem}.site-header__link{padding:.38rem .72rem;border-radius:999px;font-size:.84rem;font-weight:600;color:#314b5d;text-decoration:none;white-space:nowrap}.site-header__cta{margin-left:.4rem;padding:.42rem 1.1rem;border-radius:999px;font-size:.84rem;font-weight:700;color:#fff!important;background:linear-gradient(135deg,#63addf,#1f4f74);text-decoration:none;box-shadow:0 4px 14px rgba(36,108,157,.22);white-space:nowrap}body.subpage>main{padding-top:58px}body.subpage .page-header{padding:16px 0 12px}body.subpage .page-header h1{font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:8px}@media(max-width:768px){.site-header__toggle{display:flex!important;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;padding:6px;background:none;border:1px solid #d5e4ef;border-radius:6px;cursor:pointer}.site-header__nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:16px;gap:.25rem;background:rgba(255,255,255,.97);border-bottom:1px solid #d5e4ef;box-shadow:0 8px 24px rgba(23,58,81,.10);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.site-header__nav.is-open{display:flex}.site-header__link,.site-header__cta{justify-content:center;padding:.6rem 1rem}.site-header__cta{margin-left:0;margin-top:.25rem}}
+
+/* Schedule page styles */
+.schedule-stats{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:24px;padding:20px 24px;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(248,252,255,.7));border:1px solid #d5e4ef;border-radius:22px;box-shadow:0 10px 30px rgba(23,58,81,.09);backdrop-filter:blur(10px)}
+.schedule-stat{display:flex;flex-direction:column;gap:2px}
+.schedule-stat-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#638297;font-weight:700}
+.schedule-stat strong{font-size:1.4rem;color:#172a37;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
+.schedule-content .container{--container-max:1440px}
+.table-container{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #d5e4ef;border-radius:16px;box-shadow:0 10px 30px rgba(23,58,81,.09);background:rgba(255,255,255,.72)}
+.timeline-table{width:100%;border-collapse:collapse;font-size:.8rem;white-space:nowrap}
+.timeline-table thead th{padding:.6rem .65rem;text-align:center;color:#fff;background:#1f4f74;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:2}
+.timeline-table thead th.col-task,.timeline-table thead th.col-wbs{text-align:left}
+.timeline-table thead tr.col-group th{background:#2a6a96;font-size:.62rem;letter-spacing:.08em;border-bottom:2px solid #1f4f74}
+.timeline-table td{padding:.5rem .65rem;color:#314b5d;border-bottom:1px solid #e8eff4;text-align:center;vertical-align:middle}
+.timeline-table td.col-task,.timeline-table td.col-wbs{text-align:left}
+.timeline-table td.col-task{max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.timeline-table tr.phase-row{background:rgba(99,173,223,.1)}
+.timeline-table tr.phase-row td{color:#1f4f74;font-weight:700;border-bottom:2px solid #d5e4ef}
+.timeline-table tr.sub-task td.col-task{padding-left:1.8rem}
+.timeline-table tr.totals-row{background:rgba(31,79,116,.08)}
+.timeline-table tr.totals-row td{border-top:2px solid #1f4f74;color:#172a37;font-weight:700}
+.timeline-table tr:hover:not(.phase-row):not(.totals-row){background:#f3f9fe}
+.schedule-note{margin-top:16px;font-size:.82rem;color:#638297;text-align:center}
+.schedule-loading{text-align:center;padding:48px 24px;color:#638297;font-size:.9rem}
+.schedule-error{text-align:center;padding:48px 24px;color:#c0392b;font-size:.9rem}
+.scroll-hint{display:none;text-align:center;font-size:.75rem;color:#638297;margin-bottom:8px;animation:scrollHintPulse 2s ease-in-out infinite}
+@keyframes scrollHintPulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* Mobile optimizations */
+@media(max-width:768px){
+.schedule-stats{gap:16px;padding:16px;border-radius:16px}
+.schedule-stat strong{font-size:1.15rem}
+.table-container{border-radius:10px;margin:0 -8px;width:calc(100% + 16px)}
+.timeline-table{font-size:.7rem}
+.timeline-table thead th{padding:.45rem .4rem;font-size:.58rem}
+.timeline-table td{padding:.4rem .4rem}
+.timeline-table td.col-task{max-width:160px;min-width:120px;white-space:normal;word-break:break-word}
+.timeline-table thead th:first-child,.timeline-table td:first-child{position:sticky;left:0;z-index:1;background:inherit;box-shadow:2px 0 4px rgba(0,0,0,.06)}
+.timeline-table thead th:first-child{z-index:3;background:#1f4f74}
+.timeline-table tr.col-group th:first-child{background:#2a6a96}
+.timeline-table tr.phase-row td:first-child{background:rgba(230,243,252,.98)}
+.timeline-table tr.totals-row td:first-child{background:rgba(235,241,248,.98)}
+.timeline-table tr:not(.phase-row):not(.totals-row) td:first-child{background:rgba(255,255,255,.98)}
+.timeline-table tr:hover:not(.phase-row):not(.totals-row) td:first-child{background:#f3f9fe}
+.scroll-hint{display:block}
+}
+    </style>
+</head>
+<body class="subpage">
+    <header class="site-header" id="siteHeader">
+        <div class="site-header__inner">
+            <a href="index.html" class="site-header__brand">
+                <span class="site-header__brand-name">Dream Builders</span>
+                <span class="site-header__brand-tag">SHP-NRV</span>
+            </a>
+            <button class="site-header__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+                <span class="site-header__toggle-bar"></span>
+                <span class="site-header__toggle-bar"></span>
+                <span class="site-header__toggle-bar"></span>
+            </button>
+            <nav class="site-header__nav" id="navMenu" aria-label="Main navigation">
+                <a href="team.html" class="site-header__link">Team</a>
+                <a href="sponsors.html" class="site-header__link">Sponsors</a>
+                <a href="gallery.html" class="site-header__link">Gallery</a>
+                <a href="meeting-minutes/index.html" class="site-header__link">Minutes</a>
+                <a href="lessons.html" class="site-header__link">Lessons</a>
+                <a href="timeline.html" class="site-header__link">Timeline</a>
+                <a href="docs/index.html" class="site-header__link">Docs</a>
+                <a href="sponsors.html#become-a-sponsor" class="site-header__cta">Support</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container reveal hero-enter">
+                <h1>Project Schedule</h1>
+                <p>Dream Builders draft schedule &mdash; work breakdown structure and hour tracking</p>
+            </div>
+        </section>
+
+        <section class="schedule-content">
+            <div class="container">
+                <div class="schedule-stats reveal" id="scheduleStats" hidden>
+                    <div class="schedule-stat">
+                        <span class="schedule-stat-label">Total Est. Hours</span>
+                        <strong id="statEstTotal">0</strong>
+                    </div>
+                    <div class="schedule-stat">
+                        <span class="schedule-stat-label">Total Act. Hours</span>
+                        <strong id="statActTotal">0</strong>
+                    </div>
+                    <div class="schedule-stat">
+                        <span class="schedule-stat-label">Team Members</span>
+                        <strong id="statMembers">5</strong>
+                    </div>
+                    <div class="schedule-stat">
+                        <span class="schedule-stat-label">Tasks</span>
+                        <strong id="statTasks">0</strong>
+                    </div>
+                </div>
+
+                <p class="scroll-hint">&larr; Swipe to scroll table &rarr;</p>
+                <div id="scheduleTable" class="reveal">
+                    <div class="schedule-loading">Loading schedule data&hellip;</div>
+                </div>
+
+                <p class="schedule-note" id="scheduleNote" hidden>Data pulled live from Google Sheets. Hours update automatically.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="team.html">Team</a>
+                <a href="sponsors.html">Sponsors</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="meeting-minutes/index.html">Minutes</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="timeline.html">Timeline</a>
+                <a href="docs/index.html">Docs</a>
+            </div>
+            <p>&copy; 2026 Dream Builders &mdash; Partnering with Sleep in Heavenly Peace (NRV)</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+    (function () {
+        /* ── Configuration ─────────────────────────────────── */
+        var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsqLEQ2xVkOZvjG6aQP9DuUjGO9vvuLe6Okudns1p5PhpJycouR53fm_RPvhfbdA/pub?output=csv';
+
+        /* ── Sheet format (multi-row header) ───────────────── *
+         *  Row 1: Title row ("Dream Builders Draft Schedule")
+         *  Row 2: Total hours summary
+         *  Row 3: Column group labels ("Major tasks", "Start Date", "End Date", "Responsible", "Estimated Hours per person", ..., "Total", "Actual Hours", ..., "Total")
+         *  Row 4: Member names row (blank, blank, blank, blank, Holden, Luis, Weijin, Asher, Andres, "Est. Hours", Holden, Luis, Weijin, Asher, Andres, "Act. Hours")
+         *  Row 5+: Data rows
+         *
+         *  Col A: Task (WBS number + name combined, e.g. "1.1 Initiating" or "   1.1.1 Project charter")
+         *  Col B: Start Date
+         *  Col C: End Date
+         *  Col D: Responsible
+         *  Col E-I: Estimated hours per member
+         *  Col J: Est. Total
+         *  Col K-O: Actual hours per member
+         *  Col P: Act. Total
+         * ──────────────────────────────────────────────────── */
+
+        var containerEl = document.getElementById('scheduleTable');
+        var statsEl = document.getElementById('scheduleStats');
+        var noteEl = document.getElementById('scheduleNote');
+
+        /* ── CSV Parsing ── */
+        function splitCsvLine(line) {
+            var cells = [];
+            var current = '';
+            var inQuotes = false;
+            for (var i = 0; i < line.length; i++) {
+                var ch = line.charAt(i);
+                if (ch === '"') {
+                    if (inQuotes && line.charAt(i + 1) === '"') {
+                        current += '"';
+                        i += 1;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (ch === ',' && !inQuotes) {
+                    cells.push(current);
+                    current = '';
+                } else {
+                    current += ch;
+                }
+            }
+            cells.push(current);
+            return cells;
+        }
+
+        function clean(raw) {
+            var s = String(raw == null ? '' : raw).trim();
+            if (s.length >= 2 && s.charAt(0) === '"' && s.charAt(s.length - 1) === '"') {
+                s = s.slice(1, -1);
+            }
+            return s.trim();
+        }
+
+        function num(val) {
+            var n = parseFloat(String(val).replace(/[^\d.\-]/g, ''));
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        function fmt(n) {
+            return n === 0 ? '' : n % 1 === 0 ? String(n) : n.toFixed(2);
+        }
+
+        function esc(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /* ── Find the member-names header row ── */
+        function findHeaderRow(allRows) {
+            // Look for a row where multiple cells match known member names
+            var knownNames = ['holden', 'luis', 'weijin', 'asher', 'andres'];
+            for (var i = 0; i < Math.min(allRows.length, 10); i++) {
+                var cells = allRows[i];
+                var matches = 0;
+                for (var j = 0; j < cells.length; j++) {
+                    var cell = clean(cells[j]).toLowerCase();
+                    if (knownNames.indexOf(cell) !== -1) matches++;
+                }
+                if (matches >= 3) return i;
+            }
+            return -1;
+        }
+
+        /* ── Parse the sheet structure ── */
+        function parseSheet(csvText) {
+            var lines = csvText
+                .replace(/^\uFEFF/, '')
+                .split(/\r\n|\n|\r/)
+                .filter(function (l) { return l.trim().length > 0; });
+            if (lines.length < 3) return null;
+
+            var allRows = lines.map(function (l) { return splitCsvLine(l); });
+            var headerIdx = findHeaderRow(allRows);
+            if (headerIdx === -1) return null;
+
+            var headerCells = allRows[headerIdx].map(function (c) { return clean(c); });
+
+            // Discover member columns by scanning the header row
+            // The first occurrence of member names = estimated, second = actual
+            var members = [];
+            var estCols = [];
+            var actCols = [];
+            var estTotalCol = -1;
+            var actTotalCol = -1;
+            var seenNames = {};
+
+            for (var j = 0; j < headerCells.length; j++) {
+                var cell = headerCells[j].toLowerCase();
+                // Check for known member names
+                var nameMatch = ['holden', 'luis', 'weijin', 'asher', 'andres'].filter(function (n) {
+                    return cell === n;
+                })[0];
+
+                if (nameMatch) {
+                    var displayName = headerCells[j]; // preserve original casing
+                    if (!seenNames[nameMatch]) {
+                        // First occurrence = estimated
+                        seenNames[nameMatch] = true;
+                        members.push(displayName);
+                        estCols.push(j);
+                    } else {
+                        // Second occurrence = actual
+                        actCols.push(j);
+                    }
+                }
+
+                // Detect total columns
+                if (cell.indexOf('est') !== -1 && cell.indexOf('hour') !== -1) estTotalCol = j;
+                else if (cell.indexOf('act') !== -1 && cell.indexOf('hour') !== -1) actTotalCol = j;
+                else if (cell === 'total' || cell === 'est. hours') {
+                    if (estTotalCol === -1) estTotalCol = j;
+                    else if (actTotalCol === -1) actTotalCol = j;
+                }
+            }
+
+            // Data rows start after the header row
+            var dataRows = [];
+            for (var i = headerIdx + 1; i < allRows.length; i++) {
+                var cells = allRows[i].map(function (c) { return clean(c); });
+                var taskName = cells[0] || '';
+                // Skip completely empty rows
+                if (!taskName && !cells.slice(1).join('').trim()) continue;
+
+                dataRows.push({
+                    task: taskName,
+                    startDate: cells[1] || '',
+                    endDate: cells[2] || '',
+                    responsible: cells[3] || '',
+                    estHours: estCols.map(function (ci) { return cells[ci] || ''; }),
+                    estTotal: estTotalCol !== -1 ? (cells[estTotalCol] || '') : '',
+                    actHours: actCols.map(function (ci) { return cells[ci] || ''; }),
+                    actTotal: actTotalCol !== -1 ? (cells[actTotalCol] || '') : ''
+                });
+            }
+
+            return { members: members, estCols: estCols, actCols: actCols, rows: dataRows };
+        }
+
+        /* ── Detect row type from task name ── */
+        function getRowType(task) {
+            var trimmed = task.replace(/^\s+/, '');
+            // Phase row: starts with "X.X Name" with no further sub-numbering (e.g., "1.1 Initiating", "1.3 Executing")
+            if (/^\d+\.\d+\s+\S/.test(trimmed) && !/^\d+\.\d+\.\d+/.test(trimmed)) return 'phase';
+            // Sub-phase header: e.g., "1.3.1 Communications" (has children but also has a name)
+            // Data row: e.g., "1.1.1 Project charter" or deeper "1.3.1.1 Document team meetings"
+            return 'task';
+        }
+
+        function isIndented(task) {
+            return /^\s{2,}/.test(task);
+        }
+
+        /* ── Render ── */
+        function render(data) {
+            if (!data || !data.rows.length) {
+                containerEl.innerHTML = '<div class="schedule-error">No schedule data found. Check the Google Sheet format.</div>';
+                return;
+            }
+
+            var members = data.members;
+            var rows = data.rows;
+            var hasAct = data.actCols.length > 0;
+
+            // Compute totals from data rows (skip phase headers)
+            var estTotals = members.map(function () { return 0; });
+            var actTotals = members.map(function () { return 0; });
+            var taskCount = 0;
+
+            rows.forEach(function (row) {
+                if (getRowType(row.task) === 'phase') return;
+                if (!row.task.trim()) return;
+                var hasAnyHours = row.estHours.some(function (v) { return num(v) > 0; }) ||
+                                  row.actHours.some(function (v) { return num(v) > 0; });
+                if (!hasAnyHours && !row.startDate && !row.endDate) return;
+                taskCount++;
+                for (var m = 0; m < members.length; m++) {
+                    estTotals[m] += num(row.estHours[m]);
+                    if (hasAct) actTotals[m] += num(row.actHours[m]);
+                }
+            });
+
+            var grandEst = estTotals.reduce(function (a, b) { return a + b; }, 0);
+            var grandAct = actTotals.reduce(function (a, b) { return a + b; }, 0);
+
+            // Update stats panel
+            document.getElementById('statEstTotal').textContent = grandEst.toFixed(1);
+            document.getElementById('statActTotal').textContent = grandAct.toFixed(1);
+            document.getElementById('statTasks').textContent = String(taskCount);
+            statsEl.hidden = false;
+            noteEl.hidden = false;
+
+            // Build table
+            var html = '<div class="table-container"><table class="timeline-table"><thead>';
+
+            // Column group header
+            html += '<tr class="col-group">';
+            html += '<th colspan="3"></th>'; // Task, Start, End
+            html += '<th colspan="' + (members.length + 1) + '">Estimated Hours</th>';
+            if (hasAct) html += '<th colspan="' + (members.length + 1) + '">Actual Hours</th>';
+            html += '</tr>';
+
+            // Member names header
+            html += '<tr>';
+            html += '<th class="col-task">Task</th>';
+            html += '<th>Start</th>';
+            html += '<th>End</th>';
+            for (var m = 0; m < members.length; m++) html += '<th>' + esc(members[m]) + '</th>';
+            html += '<th>Total</th>';
+            if (hasAct) {
+                for (var m = 0; m < members.length; m++) html += '<th>' + esc(members[m]) + '</th>';
+                html += '<th>Total</th>';
+            }
+            html += '</tr></thead><tbody>';
+
+            // Totals row
+            html += '<tr class="totals-row">';
+            html += '<td class="col-task"><strong>Total Hours</strong></td>';
+            html += '<td></td><td></td>';
+            for (var m = 0; m < members.length; m++) html += '<td><strong>' + fmt(estTotals[m]) + '</strong></td>';
+            html += '<td><strong>' + fmt(grandEst) + '</strong></td>';
+            if (hasAct) {
+                for (var m = 0; m < members.length; m++) html += '<td><strong>' + fmt(actTotals[m]) + '</strong></td>';
+                html += '<td><strong>' + fmt(grandAct) + '</strong></td>';
+            }
+            html += '</tr>';
+
+            // Data rows
+            rows.forEach(function (row) {
+                var task = row.task;
+                if (!task.trim()) return; // skip blank rows
+
+                var type = getRowType(task);
+                var indent = isIndented(task);
+                var cls = type === 'phase' ? 'phase-row' : (indent ? 'sub-task' : '');
+
+                html += '<tr class="' + cls + '">';
+                html += '<td class="col-task">' + esc(task) + '</td>';
+                html += '<td>' + esc(row.startDate) + '</td>';
+                html += '<td>' + esc(row.endDate) + '</td>';
+
+                // Est hours per member
+                var rowEstTotal = 0;
+                for (var m = 0; m < members.length; m++) {
+                    var v = num(row.estHours[m]);
+                    rowEstTotal += v;
+                    html += '<td>' + fmt(v) + '</td>';
+                }
+                // Use sheet's total if available, otherwise computed
+                var sheetEstTotal = num(row.estTotal);
+                html += '<td><strong>' + fmt(sheetEstTotal || rowEstTotal) + '</strong></td>';
+
+                if (hasAct) {
+                    var rowActTotal = 0;
+                    for (var m = 0; m < members.length; m++) {
+                        var v = num(row.actHours[m]);
+                        rowActTotal += v;
+                        html += '<td>' + fmt(v) + '</td>';
+                    }
+                    var sheetActTotal = num(row.actTotal);
+                    html += '<td><strong>' + fmt(sheetActTotal || rowActTotal) + '</strong></td>';
+                }
+
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+            containerEl.innerHTML = html;
+        }
+
+        /* ── Fetch and render ── */
+        async function fetchSchedule() {
+            try {
+                var resp = await fetch(CSV_URL + (CSV_URL.indexOf('?') !== -1 ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                var text = await resp.text();
+                var data = parseSheet(text);
+                render(data);
+            } catch (err) {
+                containerEl.innerHTML = '<div class="schedule-error">Failed to load schedule data. Please try again later.</div>';
+            }
+        }
+
+        fetchSchedule();
+    })();
+    </script>
+</body>
+</html>
