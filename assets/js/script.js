@@ -211,11 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion =
         window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const supportsIO = 'IntersectionObserver' in window;
-    const revealItems = document.querySelectorAll('.reveal');
+    const revealItems = document.querySelectorAll('.reveal, .reveal-left, .reveal-scale');
 
-    // Stagger children
+    // Stagger children (support all reveal variants)
     document.querySelectorAll('[data-stagger="children"]').forEach(group => {
-        const children = Array.from(group.children).filter(c => c.classList.contains('reveal'));
+        const children = Array.from(group.children).filter(c =>
+            c.classList.contains('reveal') || c.classList.contains('reveal-left') || c.classList.contains('reveal-scale')
+        );
         children.forEach((child, idx) => {
             child.style.transitionDelay = idx * 80 + 'ms';
         });
@@ -229,6 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
+                    // Clean up will-change after transition completes
+                    entry.target.addEventListener('transitionend', function cleanup() {
+                        entry.target.style.willChange = 'auto';
+                        entry.target.removeEventListener('transitionend', cleanup);
+                    }, { once: true });
                 }
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
@@ -754,22 +761,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     if (navToggle && navMenu) {
+        // Create overlay element for mobile nav
+        const navOverlay = document.createElement('div');
+        navOverlay.className = 'nav-overlay';
+        document.body.appendChild(navOverlay);
+
+        function closeNav() {
+            navMenu.classList.remove('is-open');
+            navToggle.setAttribute('aria-expanded', 'false');
+            navOverlay.classList.remove('is-active');
+            document.body.classList.remove('nav-open');
+        }
+
+        function openNav() {
+            navMenu.classList.add('is-open');
+            navToggle.setAttribute('aria-expanded', 'true');
+            navOverlay.classList.add('is-active');
+            document.body.classList.add('nav-open');
+        }
+
         navToggle.addEventListener('click', () => {
-            const isOpen = navMenu.classList.toggle('is-open');
-            navToggle.setAttribute('aria-expanded', String(isOpen));
+            if (navMenu.classList.contains('is-open')) {
+                closeNav();
+            } else {
+                openNav();
+            }
         });
 
+        navOverlay.addEventListener('click', closeNav);
+
         navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('is-open');
-                navToggle.setAttribute('aria-expanded', 'false');
-            });
+            link.addEventListener('click', closeNav);
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
-                navMenu.classList.remove('is-open');
-                navToggle.setAttribute('aria-expanded', 'false');
+                closeNav();
                 navToggle.focus();
             }
         });

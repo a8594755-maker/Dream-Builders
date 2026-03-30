@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Builders - Supporting Sleep in Heavenly Peace (NRV)</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=8">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
     <style>
         /* Critical inline styles – header + sponsors */
         .site-header{position:fixed;top:0;left:0;right:0;z-index:8000;background:rgba(255,255,255,.96);border-bottom:1px solid #d5e4ef;backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);box-shadow:0 1px 8px rgba(23,58,81,.06);transition:box-shadow .3s ease}
@@ -30,7 +30,7 @@
         .home-sponsors__info{position:relative;z-index:1}
         .home-sponsors__tracker{display:flex;flex-wrap:wrap;gap:32px;margin-bottom:24px;padding:24px;background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(248,252,255,.7));border:1px solid #d5e4ef;border-radius:22px;box-shadow:0 10px 30px rgba(23,58,81,.09);backdrop-filter:blur(10px)}
         .home-sponsors__stat{display:flex;flex-direction:column;gap:2px}
-        .home-sponsors__stat-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#638297;font-weight:700}
+        .home-sponsors__stat-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#4f7389;font-weight:700}
         .home-sponsors__stat strong{font-size:1.6rem;color:#172a37;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2}
         .home-sponsors__actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
         .home-sponsors__more{text-align:center;font-size:.9rem;margin:0}
@@ -43,15 +43,16 @@
         .home-hero__dashboard-title{font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1f4f74;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #d5e4ef;position:relative;z-index:1}
         .home-hero__kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;position:relative;z-index:1}
         .home-hero__kpi{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:10px;border:1px solid rgba(182,217,239,.5);background:rgba(255,255,255,.55)}
-        .home-hero__kpi-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#638297}
+        .home-hero__kpi-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4f7389}
         .home-hero__kpi-value{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.25rem,2vw,1.6rem);font-weight:700;color:#172a37;line-height:1.2}
         .home-hero__dashboard-meta{padding-top:12px;border-top:1px solid #d5e4ef;position:relative;z-index:1}
         .home-hero__partner-tag{display:block;font-size:.78rem;font-weight:600;color:#49667a;margin-bottom:4px}
-        .home-hero__last-updated{margin:0;font-size:.74rem;color:#638297;opacity:.85}
+        .home-hero__last-updated{margin:0;font-size:.74rem;color:#4f7389;opacity:.85}
         @media(max-width:768px){.site-header__toggle{display:flex!important;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;padding:6px;background:none;border:1px solid #d5e4ef;border-radius:6px;cursor:pointer}.site-header__nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:16px;gap:.25rem;background:rgba(255,255,255,.97);border-bottom:1px solid #d5e4ef;box-shadow:0 8px 24px rgba(23,58,81,.10);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.site-header__nav.is-open{display:flex}.site-header__link,.site-header__cta{justify-content:center;padding:.6rem 1rem}.site-header__cta{margin-left:0;margin-top:.25rem}}
     </style>
 </head>
 <body class="homepage">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header" id="siteHeader">
         <div class="site-header__inner">
             <a href="index.html" class="site-header__brand">
@@ -76,16 +77,21 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="hero home-hero">
             <div class="container">
                 <div class="home-hero__grid reveal hero-enter">
                     <div class="home-hero__message">
+                        <p class="hero-eyebrow">No kid sleeps on the floor in our town</p>
                         <h1>Building Better Nights for Children in the New River Valley</h1>
                         <p class="home-hero__subtitle">We support Sleep in Heavenly Peace (NRV) through fundraising, bedding collection, and coordinated build-day service so every child has a bed to sleep in.</p>
                         <div class="hero-actions">
-                            <a href="#story" class="cta-button primary">Explore Our Plan</a>
-                            <a href="docs/index.html" class="cta-button secondary">View Documentation</a>
+                            <a href="sponsors.html#become-a-sponsor" class="cta-button primary emphasis">Help Build a Bed</a>
+                            <a href="#story" class="cta-button secondary">See Our Impact</a>
+                        </div>
+                        <div class="hero-impact-badge">
+                            <strong data-kpi="impact-goal">40</strong>
+                            <span>beds planned for local children</span>
                         </div>
                     </div>
 
@@ -106,7 +112,7 @@
                             </div>
                             <div class="home-hero__kpi">
                                 <span class="home-hero__kpi-label">Project Status</span>
-                                <strong class="home-hero__kpi-value" data-kpi="project-status">Active Planning</strong>
+                                <strong class="home-hero__kpi-value" data-kpi="project-status">Executing</strong>
                             </div>
                         </div>
                         <div class="home-hero__dashboard-meta">
@@ -123,6 +129,7 @@
                 <div class="section-head reveal">
                     <p class="section-label">Support</p>
                     <h2 class="section-heading">Our Sponsors &amp; Partners</h2>
+                    <div class="section-divider"></div>
                     <p class="section-desc">Your support helps us partner with Sleep in Heavenly Peace (NRV) to ensure no child sleeps on the floor in our town.</p>
                 </div>
 
@@ -151,7 +158,7 @@
 
                 <div class="home-sponsors__actions reveal">
                     <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Donate Bedding (Amazon Wishlist) &rarr;</a>
-                    <a href="#donation-intent-modal" class="sp-btn sp-btn-outline" data-open-modal="donation-intent-modal">Donate Funds (Intent Form)</a>
+                    <a href="https://www.gofundme.com/f/help-us-ensure-no-child-sleeps-on-the-floor/cl/o?utm_campaign=man_sharesheet_dash&utm_content=amp17_ta-amp20_t2&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3Aeec95b47-a0fb-40a1-bef6-c835fa3427a3&ts=1774642455" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Donate via GoFundMe</a>
                     <a href="https://shpbeds.org/" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Visit SHP &rarr;</a>
                 </div>
 
@@ -190,11 +197,12 @@
                 <div class="section-head">
                     <p class="section-label">Story</p>
                     <h2 class="section-heading">Why This Project Matters</h2>
+                    <div class="section-divider"></div>
                     <p class="section-desc">Our team is combining outreach, donations, and hands-on support to help local children receive safe and comfortable sleeping spaces.</p>
                 </div>
 
                 <div class="story-grid" data-stagger="children">
-                    <div class="story-copy reveal">
+                    <div class="story-copy reveal-left">
                         <p>Dream Builders partners with Sleep in Heavenly Peace (NRV) to remove a basic barrier to healthy childhood development: not having a bed. We focus on coordinated action that keeps effort practical and measurable.</p>
                         <p>Our current phase emphasizes three priorities: building support through fundraising, collecting twin bed-in-a-bag sets, and aligning volunteers for key April build activities.</p>
                     </div>
@@ -216,11 +224,12 @@
                 <div class="section-head">
                     <p class="section-label">Focus Areas</p>
                     <h2 class="section-heading">How We Deliver Results</h2>
+                    <div class="section-divider"></div>
                     <p class="section-desc">Three connected workstreams keep progress visible and actionable throughout the project lifecycle.</p>
                 </div>
 
                 <div class="focus-grid" data-stagger="children">
-                    <article class="home-card reveal">
+                    <article class="home-card reveal-scale">
                         <div class="home-card-icon">$</div>
                         <h3>Fundraising & Outreach</h3>
                         <p>Build local momentum and secure resources to support bed builds for children in need.</p>
@@ -244,6 +253,7 @@
                 <div class="section-head">
                     <p class="section-label">Bedding Drive</p>
                     <h2 class="section-heading">Reveal the Photo</h2>
+                    <div class="section-divider"></div>
                     <p class="section-desc">Every bedding set collected reveals a piece of the picture. Help us complete the full image!</p>
                 </div>
 
@@ -260,7 +270,7 @@
                                 class="quilt-base-img"
                                 loading="lazy"
                             >
-                            <div id="quiltTiles" class="quilt-tiles" aria-hidden="true"></div>
+                            <div id="quiltTiles" class="quilt-tiles" role="img" aria-label="Bedding collection progress visualization"></div>
                         </div>
                     </figure>
 
@@ -289,17 +299,18 @@
                 <div class="section-head">
                     <p class="section-label">Latest Updates</p>
                     <h2 class="section-heading">Current Progress Snapshot</h2>
-                    <p class="section-desc">Project kickoff is complete, responsibilities are assigned, and outreach planning is now in motion.</p>
+                    <div class="section-divider"></div>
+                    <p class="section-desc">The team is now in execution mode &mdash; fundraising is live, sponsor outreach is underway, and build-day preparation has begun.</p>
                 </div>
 
                 <div class="updates-grid" data-stagger="children">
                     <article class="update-panel reveal">
-                        <h3>This Week</h3>
-                        <p>Team roles finalized and early planning checkpoints established across fundraising, bedding coordination, and documentation.</p>
+                        <h3>Our Next Steps</h3>
+                        <p>Preparing for the April bed build and deliveries &mdash; finalizing sponsor outreach, collecting remaining bedding sets, and coordinating build-day logistics.</p>
                     </article>
                     <article class="update-panel reveal">
-                        <h3>Next Steps</h3>
-                        <p>Complete timeline checkpoints, confirm volunteer scheduling, and continue sponsor and community outreach.</p>
+                        <h3>Current Focus</h3>
+                        <p>Continue fundraising via GoFundMe, secure remaining beds-in-a-bag donations, complete progress report, and finalize presentation materials for the April 25 build event.</p>
                     </article>
                 </div>
             </div>
@@ -308,6 +319,7 @@
 
     <footer>
         <div class="container">
+            <p class="footer-mission">"No kid sleeps on the floor in our town."</p>
             <div class="footer-links">
                 <a href="team.html">Team</a>
                 <a href="sponsors.html">Sponsors</a>
@@ -321,42 +333,6 @@
             <p>&copy; 2026 Dream Builders &mdash; Partnering with Sleep in Heavenly Peace (NRV)</p>
         </div>
     </footer>
-
-    <div class="modal" id="donation-intent-modal" aria-hidden="true" role="dialog" aria-labelledby="donation-intent-title">
-        <div class="modal__panel">
-            <button class="modal__close" data-close-modal aria-label="Close">&times;</button>
-            <div class="sp-modal-head">
-                <h2 id="donation-intent-title">Donate Funds (Intent Form)</h2>
-                <p>Please submit your donation intent before continuing to the donation page.</p>
-            </div>
-
-            <form class="sp-form sp-form--modal" method="POST" action="https://script.google.com/macros/s/AKfycbxUuU9D-nMRqAH2HemhJxrwl8e3rKCuv70tImFjySlSAfySTOOltP9Wmv-W6HRV_PDC/exec">
-                <input type="hidden" name="page" value="homepage">
-                <input type="hidden" name="type" value="cash_intent">
-
-                <div class="sp-form-grid">
-                    <div class="sp-form-field">
-                        <label for="amount-usd">Amount (USD) <span aria-hidden="true">*</span></label>
-                        <input id="amount-usd" name="amount_usd" type="number" min="1" required>
-                    </div>
-
-                    <div class="sp-form-field">
-                        <label for="intent-name">Name</label>
-                        <input id="intent-name" name="name" type="text">
-                    </div>
-
-                    <div class="sp-form-field">
-                        <label for="intent-organization">Organization</label>
-                        <input id="intent-organization" name="organization" type="text">
-                    </div>
-                </div>
-
-                <p>Please don&rsquo;t include sensitive personal information. We only use this to estimate interest.</p>
-
-                <button type="submit" class="sp-btn sp-btn-white">Submit &amp; Continue to Donate &rarr;</button>
-            </form>
-        </div>
-    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
