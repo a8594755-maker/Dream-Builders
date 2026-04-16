@@ -43,14 +43,56 @@
 
         <section class="gallery-content">
             <div class="container">
-                <div class="coming-soon-panel reveal-scale">
-                    <p class="coming-soon-panel__icon">&#128247;</p>
-                    <p class="coming-soon-panel__title">Coming Soon</p>
-                    <p class="coming-soon-panel__desc">Photos from our build days, bedding drives, and community events will be shared here. Stay tuned!</p>
+
+                <!-- CMS Build Day -->
+                <div class="reveal">
+                    <h2 class="gallery-section-title">CMS Build Day — April 10, 2026</h2>
+                    <div class="gallery-grid" data-gallery="cms-build">
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7761.jpeg" alt="CMS Build Day - volunteers assembling bed frames" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7764.jpeg" alt="CMS Build Day - team working together" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7767.jpeg" alt="CMS Build Day - woodworking station" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7769.jpeg" alt="CMS Build Day - cutting lumber" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7770.jpeg" alt="CMS Build Day - assembly line" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7771.jpeg" alt="CMS Build Day - sanding beds" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7772.jpeg" alt="CMS Build Day - team collaboration" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7773.jpeg" alt="CMS Build Day - measuring and cutting" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7774.jpeg" alt="CMS Build Day - drilling station" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7775.jpeg" alt="CMS Build Day - volunteer teamwork" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7777.jpeg" alt="CMS Build Day - building progress" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7779.jpeg" alt="CMS Build Day - completed frames" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7781.jpeg" alt="CMS Build Day - painting station" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7783.jpeg" alt="CMS Build Day - finishing touches" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7785.jpeg" alt="CMS Build Day - group effort" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7786.jpeg" alt="CMS Build Day - quality check" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7787.jpeg" alt="CMS Build Day - nearing completion" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_7788.jpeg" alt="CMS Build Day - finished beds" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_4090.jpeg" alt="CMS Build Day - event overview" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_4091.jpeg" alt="CMS Build Day - community volunteers" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/cms-build/IMG_4092.jpeg" alt="CMS Build Day - build site" loading="lazy"></div>
+                    </div>
                 </div>
+
+                <!-- Bed Deliveries -->
+                <div class="reveal" style="margin-top:var(--space-6)">
+                    <h2 class="gallery-section-title">Bed Deliveries</h2>
+                    <div class="gallery-grid" data-gallery="deliveries">
+                        <div class="gallery-thumb"><img src="assets/gallery/bed-deliveries/1000018392.JPG" alt="Bed delivery to family" loading="lazy"></div>
+                        <div class="gallery-thumb"><img src="assets/gallery/bed-deliveries/IMG_5955.jpeg" alt="Bed delivery - happy recipients" loading="lazy"></div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
+
+    <!-- Lightbox -->
+    <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+        <button class="gallery-lightbox__close" aria-label="Close">&times;</button>
+        <button class="gallery-lightbox__nav gallery-lightbox__nav--prev" aria-label="Previous">&lsaquo;</button>
+        <img src="" alt="">
+        <button class="gallery-lightbox__nav gallery-lightbox__nav--next" aria-label="Next">&rsaquo;</button>
+        <div class="gallery-lightbox__counter"></div>
+    </div>
 
     <footer>
         <div class="container">
@@ -69,5 +111,50 @@
     </footer>
 
     <script src="assets/js/script.js"></script>
+    <script>
+    (function(){
+        var lb = document.getElementById('galleryLightbox');
+        var lbImg = lb.querySelector('img');
+        var counter = lb.querySelector('.gallery-lightbox__counter');
+        var thumbs = [];
+        var idx = 0;
+
+        document.querySelectorAll('.gallery-thumb').forEach(function(t){
+            thumbs.push(t.querySelector('img').src);
+            t.addEventListener('click', function(){
+                idx = thumbs.indexOf(this.querySelector('img').src);
+                show();
+            });
+        });
+
+        function show(){
+            lbImg.src = thumbs[idx];
+            counter.textContent = (idx + 1) + ' / ' + thumbs.length;
+            lb.classList.add('is-open');
+            lb.setAttribute('aria-hidden','false');
+            document.body.style.overflow = 'hidden';
+        }
+        function hide(){
+            lb.classList.remove('is-open');
+            lb.setAttribute('aria-hidden','true');
+            document.body.style.overflow = '';
+        }
+
+        lb.querySelector('.gallery-lightbox__close').addEventListener('click', hide);
+        lb.querySelector('.gallery-lightbox__nav--prev').addEventListener('click', function(){
+            idx = (idx - 1 + thumbs.length) % thumbs.length; show();
+        });
+        lb.querySelector('.gallery-lightbox__nav--next').addEventListener('click', function(){
+            idx = (idx + 1) % thumbs.length; show();
+        });
+        lb.addEventListener('click', function(e){ if(e.target === lb) hide(); });
+        document.addEventListener('keydown', function(e){
+            if(!lb.classList.contains('is-open')) return;
+            if(e.key === 'Escape') hide();
+            if(e.key === 'ArrowLeft'){ idx = (idx - 1 + thumbs.length) % thumbs.length; show(); }
+            if(e.key === 'ArrowRight'){ idx = (idx + 1) % thumbs.length; show(); }
+        });
+    })();
+    </script>
 </body>
 </html>
