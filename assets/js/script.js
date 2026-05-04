@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function clampCount(rawValue, fallback) {
             const parsed = parseFloat(rawValue);
             if (!Number.isFinite(parsed)) return fallback;
-            return Math.max(0, Math.min(TOTAL, Math.round(parsed)));
+            return Math.max(0, Math.round(parsed));
         }
 
         function xmur3(str) {
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var fallbackSafe = Number.isFinite(fallbackParsed) ? fallbackParsed : 0;
             var parsed = parseFloat(rawValue);
             if (!Number.isFinite(parsed)) parsed = fallbackSafe;
-            return Math.max(0, Math.min(TOTAL, Math.round(parsed)));
+            return Math.max(0, Math.round(parsed));
         }
 
         function cleanCell(raw) {
@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var safeCount = clampCount(rawCount, getCurrentCountFallback());
             var countText = String(safeCount);
             var progressText = safeCount + ' / ' + TOTAL;
-            var widthText = ((safeCount / TOTAL) * 100).toFixed(2).replace(/\.00$/, '') + '%';
+            var widthText = ((Math.min(safeCount, TOTAL) / TOTAL) * 100).toFixed(2).replace(/\.00$/, '') + '%';
 
             if (typeof window.updateBeddingQuilt === 'function') {
                 window.updateBeddingQuilt(safeCount, { pop: false });
@@ -629,8 +629,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (progressFillEl && progressFillEl.style.width !== widthText) {
                 progressFillEl.style.width = widthText;
             }
-            if (progressBarEl && progressBarEl.getAttribute('aria-valuenow') !== countText) {
-                progressBarEl.setAttribute('aria-valuenow', countText);
+            var ariaValueNow = String(Math.min(safeCount, TOTAL));
+            if (progressBarEl && progressBarEl.getAttribute('aria-valuenow') !== ariaValueNow) {
+                progressBarEl.setAttribute('aria-valuenow', ariaValueNow);
             }
             if (beddingValueEl && beddingValueEl.textContent !== progressText) {
                 beddingValueEl.textContent = progressText;

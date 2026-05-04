@@ -41,7 +41,7 @@
         .home-hero__subtitle{max-width:54ch;margin-bottom:24px;color:#49667a;font-size:1rem;line-height:1.72}
         .home-hero__dashboard{padding:24px;border-radius:28px;border:1px solid #d5e4ef;background:linear-gradient(150deg,rgba(255,255,255,.82),rgba(255,255,255,.62));box-shadow:0 14px 34px rgba(23,58,81,.11);backdrop-filter:blur(16px) saturate(125%);-webkit-backdrop-filter:blur(16px) saturate(125%);position:relative;overflow:hidden}
         .home-hero__dashboard-title{font-family:'Manrope',sans-serif;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#1f4f74;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #d5e4ef;position:relative;z-index:1}
-        .home-hero__kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;position:relative;z-index:1}
+        .home-hero__kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;position:relative;z-index:1}
         .home-hero__kpi{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:10px;border:1px solid rgba(182,217,239,.5);background:rgba(255,255,255,.55)}
         .home-hero__kpi-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4f7389}
         .home-hero__kpi-value{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.25rem,2vw,1.6rem);font-weight:700;color:#172a37;line-height:1.2}
@@ -99,10 +99,6 @@
                         <h2 class="home-hero__dashboard-title">Project Dashboard</h2>
                         <div class="home-hero__kpi-grid">
                             <div class="home-hero__kpi">
-                                <span class="home-hero__kpi-label">Money Raised</span>
-                                <strong class="home-hero__kpi-value" data-kpi="money-raised">$0</strong>
-                            </div>
-                            <div class="home-hero__kpi">
                                 <span class="home-hero__kpi-label">Bedding Count</span>
                                 <strong class="home-hero__kpi-value" data-kpi="bedding-count">0 / 40</strong>
                             </div>
@@ -112,7 +108,7 @@
                             </div>
                             <div class="home-hero__kpi">
                                 <span class="home-hero__kpi-label">Project Status</span>
-                                <strong class="home-hero__kpi-value" data-kpi="project-status">Executing</strong>
+                                <strong class="home-hero__kpi-value" data-kpi="project-status">Closing</strong>
                             </div>
                         </div>
                         <div class="home-hero__dashboard-meta">
@@ -145,20 +141,8 @@
                     </div>
                 </div>
 
-                <div class="home-sponsors__tracker reveal" aria-live="polite">
-                    <div class="home-sponsors__stat">
-                        <span class="home-sponsors__stat-label">Donation Intent Total</span>
-                        <strong id="homeDonationTotal">$0</strong>
-                    </div>
-                    <div class="home-sponsors__stat">
-                        <span class="home-sponsors__stat-label">Donation Intent Count</span>
-                        <strong id="homeDonationCount">0</strong>
-                    </div>
-                </div>
-
                 <div class="home-sponsors__actions reveal">
-                    <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Donate Bedding (Amazon Wishlist) &rarr;</a>
-                    <a href="https://www.gofundme.com/f/help-us-ensure-no-child-sleeps-on-the-floor/cl/o?utm_campaign=man_sharesheet_dash&utm_content=amp17_ta-amp20_t2&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3Aeec95b47-a0fb-40a1-bef6-c835fa3427a3&ts=1774642455" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Donate via GoFundMe</a>
+                    <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Donate Bedding (Paul's Bedding Wishlist) &rarr;</a>
                     <a href="https://shpbeds.org/" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Visit SHP &rarr;</a>
                 </div>
 
@@ -204,15 +188,15 @@
                 <div class="story-grid" data-stagger="children">
                     <div class="story-copy reveal-left">
                         <p>Dream Builders partners with Sleep in Heavenly Peace (NRV) to remove a basic barrier to healthy childhood development: not having a bed. We focus on coordinated action that keeps effort practical and measurable.</p>
-                        <p>Our current phase emphasizes three priorities: building support through fundraising, collecting twin bed-in-a-bag sets, and aligning volunteers for key April build activities.</p>
+                        <p>With the April 25 build complete and 43 bedding sets collected (exceeding our 40-set goal), the team has handed all beds and bedding to SHP&ndash;NRV for distribution and is now closing out project documentation.</p>
                     </div>
                     <aside class="story-card reveal" aria-label="Current priorities">
                         <h3>Current Priorities</h3>
                         <ul>
-                            <li>Grow community fundraising contributions.</li>
-                            <li>Collect 40 twin bedding sets by April 25.</li>
-                            <li>Support observation and main build-day execution.</li>
-                            <li>Maintain clear timelines, roles, and communication.</li>
+                            <li>40 beds built and 43 bedding sets collected &mdash; goals met and exceeded.</li>
+                            <li>Beds and bedding handed off to SHP&ndash;NRV for distribution to families.</li>
+                            <li>Finalize project notebook, presentation, and lessons learned.</li>
+                            <li>Submit closeout materials by May 5.</li>
                         </ul>
                     </aside>
                 </div>
@@ -300,17 +284,17 @@
                     <p class="section-label">Latest Updates</p>
                     <h2 class="section-heading">Current Progress Snapshot</h2>
                     <div class="section-divider"></div>
-                    <p class="section-desc">The team is now in execution mode &mdash; fundraising is live, sponsor outreach is underway, and build-day preparation has begun.</p>
+                    <p class="section-desc">The team has completed the April 25 build and is closing out the project &mdash; finalizing deliverables, capturing lessons learned, and handing off to SHP&ndash;NRV.</p>
                 </div>
 
                 <div class="updates-grid" data-stagger="children">
                     <article class="update-panel reveal">
                         <h3>Our Next Steps</h3>
-                        <p>Preparing for the April bed build and deliveries &mdash; finalizing sponsor outreach, collecting remaining bedding sets, and coordinating build-day logistics.</p>
+                        <p>Finalize the project notebook and final presentation, and submit closeout materials by May 5.</p>
                     </article>
                     <article class="update-panel reveal">
                         <h3>Current Focus</h3>
-                        <p>Continue fundraising via GoFundMe, secure remaining beds-in-a-bag donations, complete progress report, and finalize presentation materials for the April 25 build event.</p>
+                        <p>Compiling final report and presentation, archiving project documentation, and synthesizing lessons learned from fundraising, build-day execution, and stakeholder coordination.</p>
                     </article>
                 </div>
             </div>

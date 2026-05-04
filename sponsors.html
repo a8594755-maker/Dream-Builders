@@ -41,10 +41,9 @@
                     <div class="sp-hero-text">
                         <h1>Our Sponsors &amp; Partners</h1>
                         <p>Your support helps us partner with Sleep in Heavenly Peace (NRV) to ensure no child sleeps on the floor in our town.</p>
-                        <p><strong>Top need right now: bedding donations via our <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" target="_blank" rel="noopener">Amazon Wishlist</a>.</strong></p>
+                        <p><strong>Top need right now: bedding donations via <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" target="_blank" rel="noopener">Paul's Bedding Wishlist</a>.</strong></p>
                         <div class="sp-hero-actions">
-                            <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Donate Bedding (Amazon Wishlist) &rarr;</a>
-                            <a href="https://www.gofundme.com/f/help-us-ensure-no-child-sleeps-on-the-floor/cl/o?utm_campaign=man_sharesheet_dash&utm_content=amp17_ta-amp20_t2&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3Aeec95b47-a0fb-40a1-bef6-c835fa3427a3&ts=1774642455" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Donate via GoFundMe</a>
+                            <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" class="sp-btn sp-btn-white" target="_blank" rel="noopener">Donate Bedding (Paul's Bedding Wishlist) &rarr;</a>
                             <a href="https://shpbeds.org/" class="sp-btn sp-btn-outline" target="_blank" rel="noopener">Visit SHP &rarr;</a>
                         </div>
                     </div>
@@ -81,22 +80,22 @@
             </div>
         </section>
 
-        <!-- Live Tracker -->
+        <!-- Final Outcomes -->
         <section class="sp-section sp-section-gray">
             <div class="container">
                 <div class="sp-section-head reveal">
-                    <div class="sp-tag">Live Tracker</div>
-                    <h2>Community Progress</h2>
-                    <p>Updated from our shared donation-intent tracker.</p>
+                    <div class="sp-tag">Final Outcomes</div>
+                    <h2>Community Impact</h2>
+                    <p>Final results from the April 25 build event and bedding drive.</p>
                 </div>
-                <div class="sp-meta-row reveal" aria-live="polite">
+                <div class="sp-meta-row reveal">
                     <div class="sp-meta">
-                        <span class="sp-meta-label">Donation Intent Total</span>
-                        <h2 id="donationIntentTotal">$0</h2>
+                        <span class="sp-meta-label">Beds Built</span>
+                        <h2>40</h2>
                     </div>
                     <div class="sp-meta">
-                        <span class="sp-meta-label">Donation Intent Count</span>
-                        <h2 id="donationIntentCount">0</h2>
+                        <span class="sp-meta-label">Bedding Sets Collected</span>
+                        <h2>43</h2>
                     </div>
                 </div>
             </div>
@@ -108,9 +107,8 @@
                 <div class="sp-section-head reveal">
                     <div class="sp-tag">Get Involved</div>
                     <h2>Ways to Support</h2>
-                    <p><strong>Donate Bedding (Amazon Wishlist):</strong> <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" target="_blank" rel="noopener">Shop our Amazon Wishlist</a> to donate twin bed-in-a-bag sets directly.</p>
-                    <p><strong>Donate Funds:</strong> <a href="https://www.gofundme.com/f/help-us-ensure-no-child-sleeps-on-the-floor/cl/o?utm_campaign=man_sharesheet_dash&utm_content=amp17_ta-amp20_t2&utm_medium=customer&utm_source=copy_link&lang=en_US&attribution_id=sl%3Aeec95b47-a0fb-40a1-bef6-c835fa3427a3&ts=1774642455" target="_blank" rel="noopener">Visit our GoFundMe page</a> to contribute directly to the bed build fund.</p>
-                    <p>Coming soon &mdash; volunteer build days and additional partner opportunities.</p>
+                    <p><strong>Donate Bedding (Paul's Bedding Wishlist):</strong> <a href="https://www.amazon.com/hz/wishlist/ls/2Z1UTBD033RSB?ref_=list_d_wl_lfu_nav_1" target="_blank" rel="noopener">Shop Paul's Bedding Wishlist</a> to donate twin bed-in-a-bag sets directly.</p>
+                    <p><strong>Volunteer at a Build:</strong> Check <a href="https://shpbeds.org/" target="_blank" rel="noopener">SHP.org</a> for local build dates.</p>
                 </div>
             </div>
         </section>
@@ -220,113 +218,5 @@
     </footer>
 
     <script src="assets/js/script.js"></script>
-    <script>
-        (function() {
-            var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJQ-lyj8CQzPw7zZQ3IV-wRzD89AZCKfPRpLW_qhB6VWlbtQr3Bg7FHD98st2cyGb7K8BBnMCzSdy4/pub?gid=0&single=true&output=csv';
-            var POLL_MS = 60000;
-            var totalEl = document.getElementById('donationIntentTotal');
-            var countEl = document.getElementById('donationIntentCount');
-
-            function cleanCell(raw) {
-                var str = String(raw == null ? '' : raw).trim();
-                if (str.length >= 2 && str.charAt(0) === '"' && str.charAt(str.length - 1) === '"') {
-                    str = str.slice(1, -1);
-                }
-                return str.trim();
-            }
-
-            function splitCsvLine(line) {
-                var cells = [];
-                var current = '';
-                var inQuotes = false;
-
-                for (var i = 0; i < line.length; i++) {
-                    var ch = line.charAt(i);
-                    if (ch === '"') {
-                        if (inQuotes && line.charAt(i + 1) === '"') {
-                            current += '"';
-                            i += 1;
-                        } else {
-                            inQuotes = !inQuotes;
-                        }
-                    } else if (ch === ',' && !inQuotes) {
-                        cells.push(current);
-                        current = '';
-                    } else {
-                        current += ch;
-                    }
-                }
-                cells.push(current);
-                return cells;
-            }
-
-            function parseKeyValueCsv(csvText) {
-                if (typeof csvText !== 'string') return null;
-
-                var lines = csvText
-                    .replace(/^\uFEFF/, '')
-                    .split(/\r\n|\n|\r/)
-                    .filter(function(line) { return line.trim().length > 0; });
-                if (!lines.length) return null;
-
-                var headerCells = splitCsvLine(lines[0]).map(function(cell) {
-                    return cleanCell(cell).toLowerCase();
-                });
-                var hasHeader = headerCells.length >= 2 && headerCells[0] === 'key' && headerCells[1] === 'value';
-                var rowStart = hasHeader ? 1 : 0;
-                var data = {};
-
-                for (var i = rowStart; i < lines.length; i++) {
-                    var rowCells = splitCsvLine(lines[i]);
-                    if (!rowCells.length) continue;
-                    var key = cleanCell(rowCells[0]).toLowerCase();
-                    if (!key) continue;
-                    var value = rowCells.length > 1 ? cleanCell(rowCells.slice(1).join(',')) : '';
-                    data[key] = value;
-                }
-
-                return Object.keys(data).length ? data : null;
-            }
-
-            function parseNumber(rawValue) {
-                if (rawValue == null) return NaN;
-                var cleaned = String(rawValue)
-                    .trim()
-                    .replace(/[$,\s]/g, '')
-                    .replace(/[^\d.-]/g, '');
-                if (!cleaned) return NaN;
-                return parseFloat(cleaned);
-            }
-
-            function formatMoney(amount) {
-                return '$' + Math.round(amount).toLocaleString('en-US');
-            }
-
-            async function updateIntentValues() {
-                try {
-                    var response = await fetch(CSV_URL + '&t=' + Date.now(), { cache: 'no-store' });
-                    if (!response.ok) return;
-                    var csvText = await response.text();
-                    var data = parseKeyValueCsv(csvText);
-                    if (!data) return;
-
-                    var total = parseNumber(data.donation_intent_total);
-                    if (Number.isFinite(total) && totalEl) {
-                        totalEl.textContent = formatMoney(total);
-                    }
-
-                    var count = parseNumber(data.donation_intent_count);
-                    if (Number.isFinite(count) && countEl) {
-                        countEl.textContent = String(Math.max(0, Math.round(count)));
-                    }
-                } catch (_) {
-                    // Keep existing values when fetch/parsing fails.
-                }
-            }
-
-            updateIntentValues();
-            setInterval(updateIntentValues, POLL_MS);
-        })();
-    </script>
 </body>
 </html>
